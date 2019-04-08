@@ -136,35 +136,70 @@ bool Snake::isFoodStraight(ofRectangle food) {
     ofRectangle head_rect(head_->position.x, head_->position.y, body_size_.x, body_size_.y);
     bool intersects = false;
     bool straight = false;
+    
     switch (current_direction_) {
         case UP:
             intersects = food.intersects(head_rect.getTopLeft(), head_rect.getTopRight());
-            straight = head_->position.y > food.getBottomLeft().y;
+            straight = head_rect.getTopLeft().y > food.getBottomLeft().y;
             return intersects && straight;
+            
         case DOWN:
             intersects = food.intersects(head_rect.getTopLeft(), head_rect.getTopRight());
-            straight = head_->position.y < food.getTopLeft().y;
+            straight = head_rect.getBottomLeft().y < food.getTopLeft().y;
             return intersects && straight;
+            
         case LEFT:
             intersects = food.intersects(head_rect.getTopLeft(), head_rect.getBottomLeft());
-            straight = head_->position.x > food.getBottomRight().x;
+            straight = head_rect.getBottomLeft().x > food.getBottomRight().x;
             return intersects && straight;
+            
         case RIGHT:
             intersects = food.intersects(head_rect.getTopLeft(), head_rect.getBottomLeft());
-            straight = head_->position.x < food.getBottomLeft().x;
+            straight = head_rect.getBottomRight().x < food.getBottomLeft().x;
             return intersects && straight;
     }
+    
     return false;
 }
 
-bool Snake::isFoodLeft(<#ofRectangle food#>) {
-    // check if food is left
-    return true;
+bool Snake::isFoodLeft(ofRectangle food) {
+    ofRectangle head_rect(head_->position.x, head_->position.y, body_size_.x, body_size_.y);
+    
+    switch (current_direction_) {
+        case UP:
+            return head_rect.getX() > food.getX();
+            
+        case DOWN:
+            return head_rect.getX() < food.getX();
+            
+        case LEFT:
+            return head_rect.getY() < food.getY();
+            
+        case RIGHT:
+            return head_rect.getY() > food.getY();
+    }
+    
+    return false;
 }
 
-bool Snake::isFoodRight(<#ofRectangle food#>) {
-    // check if food is right
-    return true;
+bool Snake::isFoodRight(ofRectangle food) {
+    ofRectangle head_rect(head_->position.x, head_->position.y, body_size_.x, body_size_.y);
+    
+    switch (current_direction_) {
+        case UP:
+            return head_rect.getX() < food.getX();
+            
+        case DOWN:
+            return head_rect.getX() > food.getX();
+            
+        case LEFT:
+            return head_rect.getY() > food.getY();
+            
+        case RIGHT:
+            return head_rect.getY() < food.getY();
+    }
+    
+    return false;
 }
 
 void Snake::eatFood(ofColor newBodyColor) {
