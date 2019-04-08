@@ -17,15 +17,30 @@ int GeneticAlgorithm::getNextMove(
     if (!neural_networks_.isAlive()) {
         return 'r';
     }
-    switch (std::rand() % 3) {
+    switch (neural_networks_.getNextMove(wall_straight, wall_left, wall_right, food_straight, food_left, food_right)) {
         case 0:
-            //std::cout << "w" << std::endl;
+            if (food_straight) {
+                neural_networks_.reward(REWARD_POSITIVE);
+            } else {
+                neural_networks_.reward(REWARD_NEGATIVE);
+            }
+            
             return goStraight();
         case 1:
-            //std::cout << "a" << std::endl;
+            if (food_left) {
+                neural_networks_.reward(REWARD_POSITIVE);
+            } else {
+                neural_networks_.reward(REWARD_NEGATIVE);
+            }
+            
             return turnLeft();
         case 2:
-            //std::cout << "s" << std::endl;
+            if (food_right) {
+                neural_networks_.reward(REWARD_POSITIVE);
+            } else {
+                neural_networks_.reward(REWARD_NEGATIVE);
+            }
+            
             return turnRight();
     }
     return goStraight();
