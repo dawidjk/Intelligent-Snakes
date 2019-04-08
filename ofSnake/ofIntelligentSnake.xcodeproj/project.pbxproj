@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		111D5C3BCE95696E90ABF47C /* ofxBaseGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4544EF9315DBEDD5F63A61BB /* ofxBaseGui.cpp */; };
+		2772917A225AEA59005ECCA7 /* geneticNeuralNetwork.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 27729178225AEA59005ECCA7 /* geneticNeuralNetwork.cpp */; };
 		27E46D8E22568559004267B0 /* ofApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 27E46D8322568558004267B0 /* ofApp.cpp */; };
 		27E46D8F22568559004267B0 /* snakebody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 27E46D8422568558004267B0 /* snakebody.cpp */; };
 		27E46D9022568559004267B0 /* snake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 27E46D8722568558004267B0 /* snake.cpp */; };
@@ -39,6 +40,11 @@
 /* Begin PBXFileReference section */
 		082B731D1CE0E9DE60D1A863 /* ofxSliderGroup.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = ofxSliderGroup.cpp; path = ../../../../Downloads/of_v0.10.1_osx_release/addons/ofxGui/src/ofxSliderGroup.cpp; sourceTree = SOURCE_ROOT; };
 		0BEC8BC742C263C245ADB512 /* ofxSlider.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = ofxSlider.cpp; path = ../../../../Downloads/of_v0.10.1_osx_release/addons/ofxGui/src/ofxSlider.cpp; sourceTree = SOURCE_ROOT; };
+		27729177225AE91B005ECCA7 /* opennn */ = {isa = PBXFileReference; lastKnownFileType = folder; path = opennn; sourceTree = "<group>"; };
+		27729178225AEA59005ECCA7 /* geneticNeuralNetwork.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = geneticNeuralNetwork.cpp; sourceTree = "<group>"; };
+		27729179225AEA59005ECCA7 /* geneticNeuralNetwork.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = geneticNeuralNetwork.hpp; sourceTree = "<group>"; };
+		2772917B225AF006005ECCA7 /* eigen */ = {isa = PBXFileReference; lastKnownFileType = folder; path = eigen; sourceTree = "<group>"; };
+		2772917C225AF035005ECCA7 /* tinyxml2 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tinyxml2; sourceTree = "<group>"; };
 		27E46D8222568558004267B0 /* SnakeFood.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnakeFood.h; sourceTree = "<group>"; };
 		27E46D8322568558004267B0 /* ofApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofApp.cpp; sourceTree = "<group>"; };
 		27E46D8422568558004267B0 /* snakebody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = snakebody.cpp; sourceTree = "<group>"; };
@@ -610,6 +616,9 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				2772917C225AF035005ECCA7 /* tinyxml2 */,
+				2772917B225AF006005ECCA7 /* eigen */,
+				27729177225AE91B005ECCA7 /* opennn */,
 				27E46D8A22568559004267B0 /* ll.h */,
 				27E46D8922568559004267B0 /* ll.hpp */,
 				27E46D8B22568559004267B0 /* main.cpp */,
@@ -622,6 +631,8 @@
 				27E46D8822568559004267B0 /* snakebody.h */,
 				27E46D8D22568559004267B0 /* SnakeFood.cpp */,
 				27E46D8222568558004267B0 /* SnakeFood.h */,
+				27729178225AEA59005ECCA7 /* geneticNeuralNetwork.cpp */,
+				27729179225AEA59005ECCA7 /* geneticNeuralNetwork.hpp */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -734,6 +745,7 @@
 				45E54B4BA2A089107C06F0B7 /* ofxLabel.cpp in Sources */,
 				7F55815924AE11E6C9A74D85 /* ofxPanel.cpp in Sources */,
 				770B4CCB8E933C80317E8218 /* ofxSlider.cpp in Sources */,
+				2772917A225AEA59005ECCA7 /* geneticNeuralNetwork.cpp in Sources */,
 				2CA0E3DDA7EE172A23787862 /* ofxSliderGroup.cpp in Sources */,
 				27E46D8E22568559004267B0 /* ofApp.cpp in Sources */,
 				27E46D9022568559004267B0 /* snake.cpp in Sources */,

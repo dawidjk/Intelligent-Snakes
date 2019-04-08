@@ -22,6 +22,7 @@ If the function should update when it is called it will:
 */
 void snakeGame::update() {
 	if (should_update_) {
+        keyPressed(neural_net.getNextMove());
 		if (current_state_ == IN_PROGRESS) {
 			ofVec2f snake_body_size = game_snake_.getBodySize();
 			ofVec2f head_pos = game_snake_.getHead()->position;
