@@ -9,23 +9,36 @@
 #include <ApplicationServices/ApplicationServices.h>
 
 int GeneticNN::getNextMove() {
-    
-    switch (std::rand() % 4) {
+    switch (std::rand() % 3) {
         case 0:
             //std::cout << "w" << std::endl;
-            return 'w';
+            return goStraight();
         case 1:
             //std::cout << "a" << std::endl;
-            return 'a';
+            return turnLeft();
         case 2:
             //std::cout << "s" << std::endl;
-            return 's';
-        case 3:
-            //std::cout << "d" << std::endl;
-            return 'd';
-            
-        default:
-            //std::cout << "default" << std::endl;
-            return 'd';
+            return turnRight();
     }
+    return goStraight();
+}
+
+char GeneticNN::turnLeft() {
+    current_direction_--;
+    if (current_direction_ < 0) {
+        current_direction_ += DIRECTIONS;
+    }
+    return directions_[current_direction_];
+}
+
+char GeneticNN::turnRight() {
+    current_direction_++;
+    if (current_direction_ >= DIRECTIONS) {
+        current_direction_ -= DIRECTIONS;
+    }
+    return directions_[current_direction_];
+}
+
+char GeneticNN::goStraight() {
+    return directions_[current_direction_];
 }
