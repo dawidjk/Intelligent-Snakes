@@ -14,7 +14,7 @@ SnakeFood::SnakeFood() {
 	generator_ = std::mt19937(rand());
 	dist_x_ = std::uniform_int_distribution<>(0, window_width - size_d);
 	dist_y_ = std::uniform_int_distribution<>(0, window_height - size_d);
-	dist_color_ = std::uniform_int_distribution<>(0, 255);
+	dist_color_ = std::uniform_int_distribution<>(25, 125);
 	rebase();
 }
 
