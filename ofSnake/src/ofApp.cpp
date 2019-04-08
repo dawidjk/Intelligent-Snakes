@@ -22,15 +22,18 @@ If the function should update when it is called it will:
 */
 void snakeGame::update() {
 	if (should_update_) {
-        keyPressed(neural_net.getNextMove());
 		if (current_state_ == IN_PROGRESS) {
 			ofVec2f snake_body_size = game_snake_.getBodySize();
 			ofVec2f head_pos = game_snake_.getHead()->position;
+            
+            keyPressed(genetic_algorithm.getNextMove( game_snake_.isStraightSafe(), game_snake_.isLeftSafe(), game_snake_.isRightSafe(), game_snake_.isFoodStraight(game_food_.getFoodRect()), game_snake_.isFoodLeft(game_food_.getFoodRect()), game_snake_.isFoodRight(game_food_.getFoodRect())));
+            
 			ofRectangle snake_rect(head_pos.x, head_pos.y, snake_body_size.x, snake_body_size.y);
 
 			if (snake_rect.intersects(game_food_.getFoodRect())) {
 				game_snake_.eatFood(game_food_.getColor());
 				game_food_.rebase();
+                genetic_algorithm.ateFood();
 			}
 			game_snake_.update();
 			

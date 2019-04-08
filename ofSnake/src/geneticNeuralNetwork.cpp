@@ -8,15 +8,15 @@
 #include "geneticNeuralNetwork.hpp"
 #include <ApplicationServices/ApplicationServices.h>
 
-void GeneticNN::setup() {
-    for (int i = 0; i < NETWORKS; i++) {
-        neural_networks_.push_back(OpenNN::NeuralNetwork(
-                                         INPUT_LAYER, INNER_LAYER, OUTPUT_LAYER));
-        neural_rewards_.push_back(0);
-    }
+void GeneticAlgorithm::setup() {
+    neural_networks_.setup();
 }
 
-int GeneticNN::getNextMove() {
+int GeneticAlgorithm::getNextMove(
+                                  bool wall_straight, bool wall_left, bool wall_right, bool food_straight, bool food_left, bool food_right) {
+    if (!neural_networks_.isAlive()) {
+        return 'r';
+    }
     switch (std::rand() % 3) {
         case 0:
             //std::cout << "w" << std::endl;
@@ -31,7 +31,7 @@ int GeneticNN::getNextMove() {
     return goStraight();
 }
 
-char GeneticNN::turnLeft() {
+char GeneticAlgorithm::turnLeft() {
     current_direction_--;
     if (current_direction_ < 0) {
         current_direction_ += DIRECTIONS;
@@ -39,7 +39,7 @@ char GeneticNN::turnLeft() {
     return directions_[current_direction_];
 }
 
-char GeneticNN::turnRight() {
+char GeneticAlgorithm::turnRight() {
     current_direction_++;
     if (current_direction_ >= DIRECTIONS) {
         current_direction_ -= DIRECTIONS;
@@ -47,6 +47,14 @@ char GeneticNN::turnRight() {
     return directions_[current_direction_];
 }
 
-char GeneticNN::goStraight() {
+char GeneticAlgorithm::goStraight() {
     return directions_[current_direction_];
+}
+
+void GeneticAlgorithm::kill() {
+    neural_networks_.kill();
+}
+
+void GeneticAlgorithm::ateFood() {
+    neural_networks_.reward(REWARD_FOOD);
 }

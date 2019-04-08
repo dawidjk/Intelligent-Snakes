@@ -54,5 +54,11 @@ public:
 	int getFoodEaten() const; // Gets the number of food items the snake has eaten
 	SnakeDirection getDirection() const; // Gets the Snake's current direction
 	void setDirection(SnakeDirection new_direction); // Sets the Snake's direction
+    bool isStraightSafe();
+    bool isLeftSafe();
+    bool isRightSafe();
+    bool isFoodStraight(ofRectangle food);
+    bool isFoodLeft(ofRectangle food);
+    bool isFoodRight(ofRectangle food);
 };
 } // namespace snakelinkedlist

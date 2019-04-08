@@ -117,6 +117,56 @@ bool Snake::isDead() const {
 	return false;
 }
 
+bool Snake::isStraightSafe() {
+    // check if snake hits wall or itself if it goes straight
+    return true;
+}
+
+bool Snake::isLeftSafe() {
+    // check if snake hits wall or itself if it goes left
+    return true;
+}
+
+bool Snake::isRightSafe() {
+    // check if snake hits wall or itself if it goes right
+    return true;
+}
+
+bool Snake::isFoodStraight(ofRectangle food) {
+    ofRectangle head_rect(head_->position.x, head_->position.y, body_size_.x, body_size_.y);
+    bool intersects = false;
+    bool straight = false;
+    switch (current_direction_) {
+        case UP:
+            intersects = food.intersects(head_rect.getTopLeft(), head_rect.getTopRight());
+            straight = head_->position.y > food.getBottomLeft().y;
+            return intersects && straight;
+        case DOWN:
+            intersects = food.intersects(head_rect.getTopLeft(), head_rect.getTopRight());
+            straight = head_->position.y < food.getTopLeft().y;
+            return intersects && straight;
+        case LEFT:
+            intersects = food.intersects(head_rect.getTopLeft(), head_rect.getBottomLeft());
+            straight = head_->position.x > food.getBottomRight().x;
+            return intersects && straight;
+        case RIGHT:
+            intersects = food.intersects(head_rect.getTopLeft(), head_rect.getBottomLeft());
+            straight = head_->position.x < food.getBottomLeft().x;
+            return intersects && straight;
+    }
+    return false;
+}
+
+bool Snake::isFoodLeft(<#ofRectangle food#>) {
+    // check if food is left
+    return true;
+}
+
+bool Snake::isFoodRight(<#ofRectangle food#>) {
+    // check if food is right
+    return true;
+}
+
 void Snake::eatFood(ofColor newBodyColor) {
 	// Add a new link to our naive linked list
 	snake_body.push_back(1);
