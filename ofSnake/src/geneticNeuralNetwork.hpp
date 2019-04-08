@@ -8,16 +8,26 @@
 #ifndef geneticNeuralNetwork_hpp
 #define geneticNeuralNetwork_hpp
 
-#define INPUT_LAYER 8
+#define NUM_GENERATIONS
+#define MUTATION_PERCENT 20
+#define NETWORKS 25
+#define INPUT_LAYER 6
 #define INNER_LAYER 5
 #define OUTPUT_LAYER 3
 #define DIRECTIONS 4
+#define REWARD_POSITIVE 1
+#define REWARD_NEGATIVE -1.5
+#define REWARD_FOOD 10
 
 #include <stdio.h>
+#include <vector>
 #include "opennn/opennn.h"
 
 class GeneticNN {
-    OpenNN::Vector<OpenNN::NeuralNetwork> neural_networks_;
+    std::vector<OpenNN::NeuralNetwork> neural_networks_;
+    std::vector<int> neural_rewards_;
+    int current_netowrk_ = 0;
+    
     char directions_[DIRECTIONS] = {'w', 'd', 's', 'a'};
     int current_direction_ = 1;
     char turnLeft();
@@ -26,7 +36,7 @@ class GeneticNN {
     
 public:
     int getNextMove();
-    void generateNetStructure();
+    void setup();
 };
 
 #endif /* geneticNeuralNetwork_hpp */

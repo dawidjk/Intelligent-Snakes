@@ -8,6 +8,14 @@
 #include "geneticNeuralNetwork.hpp"
 #include <ApplicationServices/ApplicationServices.h>
 
+void GeneticNN::setup() {
+    for (int i = 0; i < NETWORKS; i++) {
+        neural_networks_.push_back(OpenNN::NeuralNetwork(
+                                         INPUT_LAYER, INNER_LAYER, OUTPUT_LAYER));
+        neural_rewards_.push_back(0);
+    }
+}
+
 int GeneticNN::getNextMove() {
     switch (std::rand() % 3) {
         case 0:
