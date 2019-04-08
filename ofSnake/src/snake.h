@@ -31,6 +31,7 @@ struct SnakeBody { // TODO replace with templated ll
 
 class Snake {
 private:
+    bool isDeadPredictor(SnakeBody *head) ; // Determines if the next state of the snake is dead
 	SnakeDirection current_direction_; // The current direction of the snake
 	ofVec2f screen_dims_; // The current screen dimensions (needed to calculate values on resize()
 	static const float kbody_size_modifier_; // The proportion of the screen width a body square is

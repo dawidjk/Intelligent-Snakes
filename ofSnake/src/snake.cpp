@@ -117,19 +117,104 @@ bool Snake::isDead() const {
 	return false;
 }
 
+bool Snake::isDeadPredictor(SnakeBody *head) {
+    // Snake is dead if the head is off screen
+    if (head->position.x < 0
+        || head->position.y < 0
+        || head->position.x > screen_dims_.x - body_size_.x
+        || head->position.y > screen_dims_.y - body_size_.y) {
+        return true;
+    }
+    
+    // If the snake's head is intersecting with any piece of its body it is dead
+    ofRectangle head_rect(head->position.x, head_->position.y, body_size_.x, body_size_.y);
+    for (SnakeBody* curr = head->next; curr->next; curr = curr->next) {
+        ofRectangle body_rect(curr->position.x, curr->position.y, body_size_.x, body_size_.y);
+        if (head_rect.intersects(body_rect)) {
+            return true;
+        }
+    }
+    
+    // Snake is not dead yet :D
+    return false;
+}
+
 bool Snake::isStraightSafe() {
-    // check if snake hits wall or itself if it goes straight
-    return true;
+    SnakeBody *temp_head;
+    temp_head->next = head_->next;
+    temp_head->color = head_->color;
+    ofVec2f temp_vec;
+    switch (current_direction_) {
+        case UP:
+            temp_vec.set(head_->position.x, head_->position.y - body_size_.y);
+            break;
+            
+        case DOWN:
+            temp_vec.set(head_->position.x, head_->position.y + body_size_.y);
+            break;
+            
+        case LEFT:
+            temp_vec.set(head_->position.x - body_size_.x, head_->position.y);
+            break;
+            
+        case RIGHT:
+            temp_vec.set(head_->position.x + body_size_.x, head_->position.y);
+            break;
+    }
+    temp_head->position = temp_vec;
+    return isDeadPredictor(temp_head);
 }
 
 bool Snake::isLeftSafe() {
-    // check if snake hits wall or itself if it goes left
-    return true;
+    SnakeBody *temp_head;
+    temp_head->next = head_->next;
+    temp_head->color = head_->color;
+    ofVec2f temp_vec;
+    switch (current_direction_) {
+        case UP:
+            temp_vec.set(head_->position.x - body_size_.x, head_->position.y);
+            break;
+            
+        case DOWN:
+            temp_vec.set(head_->position.x + body_size_.x, head_->position.y);
+            break;
+            
+        case LEFT:
+            temp_vec.set(head_->position.x, head_->position.y + body_size_.y);
+            break;
+            
+        case RIGHT:
+            temp_vec.set(head_->position.x, head_->position.y - body_size_.y);
+            break;
+    }
+    temp_head->position = temp_vec;
+    return isDeadPredictor(temp_head);
 }
 
 bool Snake::isRightSafe() {
-    // check if snake hits wall or itself if it goes right
-    return true;
+    SnakeBody *temp_head;
+    temp_head->next = head_->next;
+    temp_head->color = head_->color;
+    ofVec2f temp_vec;
+    switch (current_direction_) {
+        case UP:
+            temp_vec.set(head_->position.x + body_size_.x, head_->position.y);
+            break;
+            
+        case DOWN:
+            temp_vec.set(head_->position.x - body_size_.x, head_->position.y);
+            break;
+            
+        case LEFT:
+            temp_vec.set(head_->position.x, head_->position.y - body_size_.y);
+            break;
+            
+        case RIGHT:
+            temp_vec.set(head_->position.x, head_->position.y + body_size_.y);
+            break;
+    }
+    temp_head->position = temp_vec;
+    return isDeadPredictor(temp_head);
 }
 
 bool Snake::isFoodStraight(ofRectangle food) {
