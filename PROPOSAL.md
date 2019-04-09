@@ -11,11 +11,13 @@ We also need to give our snake incentive to explore. After all, if the snake doe
 
 This is a rough outline of how to create a neural network for a snake game that learns to play without any training data using a genetic algorithm. It may not be the general AI that every ML scientist craves, but it is a good start to unsupervised Machine Learning.
 
+I feel like the requirement for openFrameworks is satisfied, as the spec sheet states that it must implement a windowed application, which this does. However, I will also make some modifications such as: improve color selection for snake, show score in corner, display the button that the NN is selecting.
+
 # Libraries
   - openFrameworks (http://openframeworks.cc)
   - OpenNN (http://opennn.net)?
   - Caffe2 (https://caffe2.ai)?
-  - tiny-dnn (https://github.com/tiny-dnn/tiny-dnn#examples)
+  - tiny-dnn (https://github.com/tiny-dnn/tiny-dnn#examples)"
 # Links and References
   - OpenNN Documentation:
     - http://www.opennn.net/documentation/reference/class_open_n_n_1_1_genetic_algorithm.html

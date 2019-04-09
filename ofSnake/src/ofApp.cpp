@@ -44,7 +44,11 @@ void snakeGame::update() {
 	}
     
     should_update_ = true;
-    keyPressed(genetic_algorithm.getNextMove( game_snake_.isStraightSafe(), game_snake_.isLeftSafe(), game_snake_.isRightSafe(), game_snake_.isFoodStraight(game_food_.getFoodRect()), game_snake_.isFoodLeft(game_food_.getFoodRect()), game_snake_.isFoodRight(game_food_.getFoodRect())));
+    char next_move = genetic_algorithm.getNextMove( game_snake_.isStraightSafe(), game_snake_.isLeftSafe(), game_snake_.isRightSafe(), game_snake_.isFoodStraight(game_food_.getFoodRect()), game_snake_.isFoodLeft(game_food_.getFoodRect()), game_snake_.isFoodRight(game_food_.getFoodRect()));
+    
+    if (next_move != game_snake_.getDirectionChar()) {
+        keyPressed(next_move);
+    }
 }
 
 /*

@@ -32,6 +32,7 @@ bool NeuralNetworks::isAlive() {
         current_network_ = 0;
     }
     
+    is_alive_ = true;
     return false;
 }
 
@@ -49,7 +50,7 @@ int NeuralNetworks::getNextMove(bool wall_straight, bool wall_left, bool wall_ri
     
     //outputs = neural_networks_[current_network_] .get_multilayer_perceptron_pointer() ->calculate_outputs(inputs);
     
-    return (int) 0;//outputs.calculate_maximal_index();
+    return std::rand() % 4;//outputs.calculate_maximal_index();
 }
 
 void NeuralNetworks::kill() {

@@ -355,6 +355,21 @@ SnakeDirection Snake::getDirection() const {
 	return current_direction_;
 }
 
+char Snake::getDirectionChar() const {
+    switch (current_direction_) {
+        case UP:
+            return 'w';
+        case DOWN:
+            return 's';
+        case LEFT:
+            return 'a';
+        case RIGHT:
+            return 'd';
+    }
+    
+    return 'd';
+}
+
 void Snake::setDirection(SnakeDirection newDirection) {
 	current_direction_ = newDirection;
 }

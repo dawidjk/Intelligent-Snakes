@@ -54,6 +54,7 @@ public:
 	void resize(int w, int h); // Resizes the snake to a new width and height
 	int getFoodEaten() const; // Gets the number of food items the snake has eaten
 	SnakeDirection getDirection() const; // Gets the Snake's current direction
+    char getDirectionChar() const;
 	void setDirection(SnakeDirection new_direction); // Sets the Snake's direction
     bool isStraightSafe();
     bool isLeftSafe();
