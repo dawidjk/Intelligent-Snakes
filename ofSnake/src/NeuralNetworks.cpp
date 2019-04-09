@@ -6,10 +6,16 @@
 //
 
 #include "NeuralNetworks.hpp"
+const size_t k_input = 6;
+const size_t k_inner = 5;
+const size_t k_output = 3;
+
 void NeuralNetworks::setup() {
     for (int i = 0; i < NETWORKS; i++) {
-        neural_networks_.push_back(OpenNN::NeuralNetwork(
-                                                         INPUT_LAYER, INNER_LAYER, OUTPUT_LAYER));
+        //OpenNN::NeuralNetwork temp_network;
+        //temp_network.set(INPUT_LAYER, INNER_LAYER, OUTPUT_LAYER);
+        int temp_network = 0;
+        neural_networks_.push_back(temp_network);
         neural_rewards_.push_back(0);
     }
 }
@@ -38,7 +44,19 @@ double NeuralNetworks::reward(double reward) {
 }
 
 int NeuralNetworks::getNextMove(bool wall_straight, bool wall_left, bool wall_right, bool food_straight, bool food_left, bool food_right) {
-    //TODO: predict direction and return corresponding int
-    return 0;
+    //OpenNN::Vector<double> inputs(INPUT_LAYER, 0.0);
+    //OpenNN::Vector<double> outputs(OUTPUT_LAYER, 0.0);
+    
+    //outputs = neural_networks_[current_network_] .get_multilayer_perceptron_pointer() ->calculate_outputs(inputs);
+    
+    return (int) 0;//outputs.calculate_maximal_index();
 }
 
+void NeuralNetworks::kill() {
+    is_alive_ = false;
+}
+
+NeuralNetworks::~NeuralNetworks() {
+    neural_networks_.clear();
+    neural_rewards_.clear();
+}

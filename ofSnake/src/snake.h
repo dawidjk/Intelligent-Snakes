@@ -36,7 +36,7 @@ private:
 	ofVec2f screen_dims_; // The current screen dimensions (needed to calculate values on resize()
 	static const float kbody_size_modifier_; // The proportion of the screen width a body square is
 	ofVec2f body_size_; // the size of a snake body piece based on kbody_size_modifier_
-	SnakeBody* head_; // The head of the linked list, we are forced to do this because snakebody 
+	SnakeBody* head_; // The head of the linked list, we are forced to do this because snakebody
 	                  // does not support all of the data we must keep track of
     
 	cs126linkedlist::LinkedList<int> snake_body; // our linked list implementation, we might as well use it to keep track of score

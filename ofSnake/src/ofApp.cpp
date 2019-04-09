@@ -8,6 +8,7 @@ void snakeGame::setup(){
 	ofSetWindowTitle("Intelligent Snake");
 
 	srand(static_cast<unsigned>(time(0))); // Seed random with current time
+    genetic_algorithm.setup();
 }
 
 /* 
@@ -25,9 +26,7 @@ void snakeGame::update() {
 		if (current_state_ == IN_PROGRESS) {
 			ofVec2f snake_body_size = game_snake_.getBodySize();
 			ofVec2f head_pos = game_snake_.getHead()->position;
-            
-            keyPressed(genetic_algorithm.getNextMove( game_snake_.isStraightSafe(), game_snake_.isLeftSafe(), game_snake_.isRightSafe(), game_snake_.isFoodStraight(game_food_.getFoodRect()), game_snake_.isFoodLeft(game_food_.getFoodRect()), game_snake_.isFoodRight(game_food_.getFoodRect())));
-            
+
 			ofRectangle snake_rect(head_pos.x, head_pos.y, snake_body_size.x, snake_body_size.y);
 
 			if (snake_rect.intersects(game_food_.getFoodRect())) {
@@ -39,11 +38,13 @@ void snakeGame::update() {
 			
 			if (game_snake_.isDead()) {
 				current_state_ = FINISHED;
+                genetic_algorithm.kill();
 			}
 		}
 	}
-
-	should_update_ = true;
+    
+    should_update_ = true;
+    keyPressed(genetic_algorithm.getNextMove( game_snake_.isStraightSafe(), game_snake_.isLeftSafe(), game_snake_.isRightSafe(), game_snake_.isFoodStraight(game_food_.getFoodRect()), game_snake_.isFoodLeft(game_food_.getFoodRect()), game_snake_.isFoodRight(game_food_.getFoodRect())));
 }
 
 /*

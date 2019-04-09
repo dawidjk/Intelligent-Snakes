@@ -126,9 +126,13 @@ bool Snake::isDeadPredictor(SnakeBody *head) {
         return true;
     }
     
+    // no other body part, return without evaluating
+    if (head->next == nullptr) {
+        return false;
+    }
     // If the snake's head is intersecting with any piece of its body it is dead
     ofRectangle head_rect(head->position.x, head_->position.y, body_size_.x, body_size_.y);
-    for (SnakeBody* curr = head->next; curr->next; curr = curr->next) {
+    for (SnakeBody* curr = head; curr->next; curr = curr->next) {
         ofRectangle body_rect(curr->position.x, curr->position.y, body_size_.x, body_size_.y);
         if (head_rect.intersects(body_rect)) {
             return true;
@@ -140,7 +144,7 @@ bool Snake::isDeadPredictor(SnakeBody *head) {
 }
 
 bool Snake::isStraightSafe() {
-    SnakeBody *temp_head;
+    SnakeBody *temp_head = new SnakeBody();
     temp_head->next = head_->next;
     temp_head->color = head_->color;
     ofVec2f temp_vec;
@@ -161,12 +165,13 @@ bool Snake::isStraightSafe() {
             temp_vec.set(head_->position.x + body_size_.x, head_->position.y);
             break;
     }
+    
     temp_head->position = temp_vec;
     return isDeadPredictor(temp_head);
 }
 
 bool Snake::isLeftSafe() {
-    SnakeBody *temp_head;
+    SnakeBody *temp_head = new SnakeBody();
     temp_head->next = head_->next;
     temp_head->color = head_->color;
     ofVec2f temp_vec;
@@ -192,7 +197,7 @@ bool Snake::isLeftSafe() {
 }
 
 bool Snake::isRightSafe() {
-    SnakeBody *temp_head;
+    SnakeBody *temp_head = new SnakeBody();
     temp_head->next = head_->next;
     temp_head->color = head_->color;
     ofVec2f temp_vec;
@@ -218,6 +223,10 @@ bool Snake::isRightSafe() {
 }
 
 bool Snake::isFoodStraight(ofRectangle food) {
+    if (head_ == nullptr || body_size_.y < 0) {
+        return false;
+    }
+    
     ofRectangle head_rect(head_->position.x, head_->position.y, body_size_.x, body_size_.y);
     bool intersects = false;
     bool straight = false;

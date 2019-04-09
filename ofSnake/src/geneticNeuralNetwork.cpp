@@ -17,6 +17,7 @@ int GeneticAlgorithm::getNextMove(
     if (!neural_networks_.isAlive()) {
         return 'r';
     }
+    
     switch (neural_networks_.getNextMove(wall_straight, wall_left, wall_right, food_straight, food_left, food_right)) {
         case 0:
             if (food_straight) {
@@ -26,6 +27,7 @@ int GeneticAlgorithm::getNextMove(
             }
             
             return goStraight();
+            
         case 1:
             if (food_left) {
                 neural_networks_.reward(REWARD_POSITIVE);
@@ -34,6 +36,7 @@ int GeneticAlgorithm::getNextMove(
             }
             
             return turnLeft();
+            
         case 2:
             if (food_right) {
                 neural_networks_.reward(REWARD_POSITIVE);
@@ -43,22 +46,28 @@ int GeneticAlgorithm::getNextMove(
             
             return turnRight();
     }
+    
+    neural_networks_.reward(REWARD_NEGATIVE);
     return goStraight();
 }
 
 char GeneticAlgorithm::turnLeft() {
     current_direction_--;
+    
     if (current_direction_ < 0) {
         current_direction_ += DIRECTIONS;
     }
+    
     return directions_[current_direction_];
 }
 
 char GeneticAlgorithm::turnRight() {
     current_direction_++;
+    
     if (current_direction_ >= DIRECTIONS) {
         current_direction_ -= DIRECTIONS;
     }
+    
     return directions_[current_direction_];
 }
 

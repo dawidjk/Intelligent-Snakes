@@ -41,11 +41,8 @@
 /* Begin PBXFileReference section */
 		082B731D1CE0E9DE60D1A863 /* ofxSliderGroup.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = ofxSliderGroup.cpp; path = ../../../../Downloads/of_v0.10.1_osx_release/addons/ofxGui/src/ofxSliderGroup.cpp; sourceTree = SOURCE_ROOT; };
 		0BEC8BC742C263C245ADB512 /* ofxSlider.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = ofxSlider.cpp; path = ../../../../Downloads/of_v0.10.1_osx_release/addons/ofxGui/src/ofxSlider.cpp; sourceTree = SOURCE_ROOT; };
-		27729177225AE91B005ECCA7 /* opennn */ = {isa = PBXFileReference; lastKnownFileType = folder; path = opennn; sourceTree = "<group>"; };
 		27729178225AEA59005ECCA7 /* geneticNeuralNetwork.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = geneticNeuralNetwork.cpp; sourceTree = "<group>"; };
 		27729179225AEA59005ECCA7 /* geneticNeuralNetwork.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = geneticNeuralNetwork.hpp; sourceTree = "<group>"; };
-		2772917B225AF006005ECCA7 /* eigen */ = {isa = PBXFileReference; lastKnownFileType = folder; path = eigen; sourceTree = "<group>"; };
-		2772917C225AF035005ECCA7 /* tinyxml2 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tinyxml2; sourceTree = "<group>"; };
 		2772917D225B106D005ECCA7 /* NeuralNetworks.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NeuralNetworks.cpp; sourceTree = "<group>"; };
 		2772917E225B106D005ECCA7 /* NeuralNetworks.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NeuralNetworks.hpp; sourceTree = "<group>"; };
 		27E46D8222568558004267B0 /* SnakeFood.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnakeFood.h; sourceTree = "<group>"; };
@@ -619,9 +616,6 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				2772917C225AF035005ECCA7 /* tinyxml2 */,
-				2772917B225AF006005ECCA7 /* eigen */,
-				27729177225AE91B005ECCA7 /* opennn */,
 				27E46D8A22568559004267B0 /* ll.h */,
 				27E46D8922568559004267B0 /* ll.hpp */,
 				27E46D8B22568559004267B0 /* main.cpp */,
@@ -827,6 +821,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E4EB6923138AFD0F00A09F29 /* Project.xcconfig */;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				"CLANG_CXX_LANGUAGE_STANDARD[arch=x86_64]" = "c++14";
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
@@ -977,6 +973,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E4EB6923138AFD0F00A09F29 /* Project.xcconfig */;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				"CLANG_CXX_LANGUAGE_STANDARD[arch=x86_64]" = "c++14";
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -1009,6 +1007,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E4EB6923138AFD0F00A09F29 /* Project.xcconfig */;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				"CLANG_CXX_LANGUAGE_STANDARD[arch=x86_64]" = "c++14";
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
