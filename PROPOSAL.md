@@ -15,6 +15,7 @@ This is a rough outline of how to create a neural network for a snake game that 
   - openFrameworks (http://openframeworks.cc)
   - OpenNN (http://opennn.net)?
   - Caffe2 (https://caffe2.ai)?
+  - tiny-dnn (https://github.com/tiny-dnn/tiny-dnn#examples)
 # Links and References
   - OpenNN Documentation:
     - http://www.opennn.net/documentation/reference/class_open_n_n_1_1_genetic_algorithm.html
