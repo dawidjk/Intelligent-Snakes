@@ -1,7 +1,8 @@
-# In Progress
+# Week 0
+## In Progress
   - Understand how genetic algorithm works
   - Find a NN library that plays nicely with oFx
-# Completed
+## Completed
   - Download OpenNN
   - Compile OpenNN
   - Test OpenNN library.
