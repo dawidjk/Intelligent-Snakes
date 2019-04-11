@@ -8,11 +8,11 @@
 #include "geneticNeuralNetwork.hpp"
 #include <ApplicationServices/ApplicationServices.h>
 
-void GeneticAlgorithm::setup() {
+void GeneticNeuralNetwork::setup() {
     neural_networks_.setup();
 }
 
-int GeneticAlgorithm::getNextMove(
+int GeneticNeuralNetwork::getNextMove(
                                   bool wall_straight, bool wall_left, bool wall_right, bool food_straight, bool food_left, bool food_right) {
     if (!neural_networks_.isAlive()) {
         return 'r';
@@ -51,7 +51,7 @@ int GeneticAlgorithm::getNextMove(
     return goStraight();
 }
 
-char GeneticAlgorithm::turnLeft() {
+char GeneticNeuralNetwork::turnLeft() {
     current_direction_--;
     
     if (current_direction_ < 0) {
@@ -61,7 +61,7 @@ char GeneticAlgorithm::turnLeft() {
     return directions_[current_direction_];
 }
 
-char GeneticAlgorithm::turnRight() {
+char GeneticNeuralNetwork::turnRight() {
     current_direction_++;
     
     if (current_direction_ >= DIRECTIONS) {
@@ -71,14 +71,14 @@ char GeneticAlgorithm::turnRight() {
     return directions_[current_direction_];
 }
 
-char GeneticAlgorithm::goStraight() {
+char GeneticNeuralNetwork::goStraight() {
     return directions_[current_direction_];
 }
 
-void GeneticAlgorithm::kill() {
+void GeneticNeuralNetwork::kill() {
     neural_networks_.kill();
 }
 
-void GeneticAlgorithm::ateFood() {
+void GeneticNeuralNetwork::ateFood() {
     neural_networks_.reward(REWARD_FOOD);
 }

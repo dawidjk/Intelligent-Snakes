@@ -15,10 +15,10 @@
 #define OUTPUT_LAYER 3
 
 #include <vector>
+#include "tiny_dnn/tiny_dnn/tiny_dnn.h"
 
 class NeuralNetworks {
-    std::vector<int> neural_networks_;
-    //network<sequential> net;
+    //std::vector<OpenNN::NeuralNetwork> neural_networks_;
     std::vector<double> neural_rewards_;
     int current_network_ = 0;
     bool is_alive_ = true;

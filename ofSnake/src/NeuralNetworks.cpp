@@ -6,16 +6,11 @@
 //
 
 #include "NeuralNetworks.hpp"
-const size_t k_input = 6;
-const size_t k_inner = 5;
-const size_t k_output = 3;
 
 void NeuralNetworks::setup() {
     for (int i = 0; i < NETWORKS; i++) {
-        //OpenNN::NeuralNetwork temp_network;
-        //temp_network.set(INPUT_LAYER, INNER_LAYER, OUTPUT_LAYER);
-        int temp_network = 0;
-        neural_networks_.push_back(temp_network);
+        //NeuralNetwork temp_network(6,5,3);
+        //neural_networks_.push_back(temp_network);
         neural_rewards_.push_back(0);
     }
 }
@@ -58,6 +53,6 @@ void NeuralNetworks::kill() {
 }
 
 NeuralNetworks::~NeuralNetworks() {
-    neural_networks_.clear();
+    //neural_networks_.clear();
     neural_rewards_.clear();
 }

@@ -45,6 +45,7 @@
 		27729179225AEA59005ECCA7 /* geneticNeuralNetwork.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = geneticNeuralNetwork.hpp; sourceTree = "<group>"; };
 		2772917D225B106D005ECCA7 /* NeuralNetworks.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NeuralNetworks.cpp; sourceTree = "<group>"; };
 		2772917E225B106D005ECCA7 /* NeuralNetworks.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NeuralNetworks.hpp; sourceTree = "<group>"; };
+		2772918B225FCFA7005ECCA7 /* tiny_dnn */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tiny_dnn; sourceTree = "<group>"; };
 		27E46D8222568558004267B0 /* SnakeFood.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnakeFood.h; sourceTree = "<group>"; };
 		27E46D8322568558004267B0 /* ofApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofApp.cpp; sourceTree = "<group>"; };
 		27E46D8422568558004267B0 /* snakebody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = snakebody.cpp; sourceTree = "<group>"; };
@@ -616,6 +617,7 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				2772918B225FCFA7005ECCA7 /* tiny_dnn */,
 				27E46D8A22568559004267B0 /* ll.h */,
 				27E46D8922568559004267B0 /* ll.hpp */,
 				27E46D8B22568559004267B0 /* main.cpp */,

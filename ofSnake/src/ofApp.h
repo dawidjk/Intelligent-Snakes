@@ -19,7 +19,7 @@ enum GameState {
 
 class snakeGame : public ofBaseApp {
 private:
-    GeneticAlgorithm genetic_algorithm;
+    GeneticNeuralNetwork genetic_algorithm;
 	GameState current_state_ = IN_PROGRESS; // The current state of the game, used to determine possible actions
 	Snake game_snake_; // The object that represents the user controlled snake
 	SnakeFood game_food_; // The object that represents the food pellet the user is attempting to eat with the snake

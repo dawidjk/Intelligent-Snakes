@@ -16,7 +16,7 @@
 
 #include "NeuralNetworks.hpp"
 
-class GeneticAlgorithm {
+class GeneticNeuralNetwork {
     NeuralNetworks neural_networks_;
     char directions_[DIRECTIONS] = {'w', 'd', 's', 'a'};
     int current_direction_ = 1;
