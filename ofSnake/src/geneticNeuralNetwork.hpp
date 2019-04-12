@@ -13,6 +13,12 @@
 #define REWARD_POSITIVE 1
 #define REWARD_NEGATIVE -1.5
 #define REWARD_FOOD 10
+#define PENALTY -150
+#define DIRECTION_RIGHT 1
+#define DIRECTION_LEFT 2
+#define DIRECTION_STRAIGHT 0
+#define STUCK_LIMIT 50
+#define STARVE_LIMIT 350
 
 #include "NeuralNetworks.hpp"
 
@@ -20,6 +26,9 @@ class GeneticNeuralNetwork {
     NeuralNetworks neural_networks_;
     char directions_[DIRECTIONS] = {'w', 'd', 's', 'a'};
     int current_direction_ = 1;
+    int last_action_ = 0;
+    int stuck_count_ = 0;
+    int starve_count_ = 0;
     char turnLeft();
     char turnRight();
     char goStraight();
@@ -29,6 +38,8 @@ public:
     void setup();
     void kill();
     void ateFood();
+    bool isAlive();
+    void penaltyKill();
 };
 
 #endif /* geneticNeuralNetwork_hpp */

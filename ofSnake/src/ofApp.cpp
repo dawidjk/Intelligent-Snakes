@@ -28,12 +28,13 @@ void snakeGame::update() {
 			ofVec2f head_pos = game_snake_.getHead()->position;
 
 			ofRectangle snake_rect(head_pos.x, head_pos.y, snake_body_size.x, snake_body_size.y);
-
+        
 			if (snake_rect.intersects(game_food_.getFoodRect())) {
 				game_snake_.eatFood(game_food_.getColor());
 				game_food_.rebase();
                 genetic_algorithm.ateFood();
 			}
+            
 			game_snake_.update();
 			
 			if (game_snake_.isDead()) {
@@ -44,6 +45,7 @@ void snakeGame::update() {
 	}
     
     should_update_ = true;
+    
     char next_move = genetic_algorithm.getNextMove( game_snake_.isStraightSafe(), game_snake_.isLeftSafe(), game_snake_.isRightSafe(), game_snake_.isFoodStraight(game_food_.getFoodRect()), game_snake_.isFoodLeft(game_food_.getFoodRect()), game_snake_.isFoodRight(game_food_.getFoodRect()));
     
     if (next_move != game_snake_.getDirectionChar()) {

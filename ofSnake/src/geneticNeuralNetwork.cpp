@@ -14,8 +14,16 @@ void GeneticNeuralNetwork::setup() {
 
 int GeneticNeuralNetwork::getNextMove(
                                   bool wall_straight, bool wall_left, bool wall_right, bool food_straight, bool food_left, bool food_right) {
-    if (!neural_networks_.isAlive()) {
+    if (!neural_networks_.isAliveReset()) {
+        std::cout << "Generation: " << neural_networks_.getGeneration() << " Score: " << neural_networks_.getLastScore() << std::endl;
         return 'r';
+    }
+    
+    starve_count_++;
+    
+    if (starve_count_ > STARVE_LIMIT) {
+        starve_count_ = 0;
+        penaltyKill();
     }
     
     switch (neural_networks_.getNextMove(wall_straight, wall_left, wall_right, food_straight, food_left, food_right)) {
@@ -52,26 +60,57 @@ int GeneticNeuralNetwork::getNextMove(
 }
 
 char GeneticNeuralNetwork::turnLeft() {
+    if (last_action_ == DIRECTION_LEFT) {
+        stuck_count_++;
+    } else {
+        stuck_count_ = 0;
+    }
+    
+    if (stuck_count_ > STUCK_LIMIT) {
+        penaltyKill();
+    }
+    
     current_direction_--;
+    last_action_ = DIRECTION_LEFT;
     
     if (current_direction_ < 0) {
         current_direction_ += DIRECTIONS;
     }
     
+    std::cout << "Turning Left" << std::endl;
+    
     return directions_[current_direction_];
 }
 
 char GeneticNeuralNetwork::turnRight() {
+    if (last_action_ == DIRECTION_RIGHT) {
+        stuck_count_++;
+    } else {
+        stuck_count_ = 0;
+    }
+    
+    if (stuck_count_ > STUCK_LIMIT) {
+        penaltyKill();
+    }
+    
     current_direction_++;
+    last_action_ = DIRECTION_RIGHT;
     
     if (current_direction_ >= DIRECTIONS) {
         current_direction_ -= DIRECTIONS;
     }
     
+    std::cout << "Turning Right" << std::endl;
+    
     return directions_[current_direction_];
 }
 
 char GeneticNeuralNetwork::goStraight() {
+    stuck_count_ = 0;
+    last_action_ = DIRECTION_STRAIGHT;
+    
+    //std::cout << "Going Straight" << std::endl;
+    
     return directions_[current_direction_];
 }
 
@@ -79,6 +118,17 @@ void GeneticNeuralNetwork::kill() {
     neural_networks_.kill();
 }
 
+void GeneticNeuralNetwork::penaltyKill() {
+    std::cout << "***PENALTY KILL***" << std::endl;
+    
+    neural_networks_.reward(PENALTY);
+    neural_networks_.kill();
+}
+
 void GeneticNeuralNetwork::ateFood() {
     neural_networks_.reward(REWARD_FOOD);
+}
+
+bool GeneticNeuralNetwork::isAlive() {
+    return neural_networks_.isAlive();
 }

@@ -18,11 +18,12 @@
 #include "tiny_dnn/tiny_dnn/tiny_dnn.h"
 
 class NeuralNetworks {
-    //std::vector<OpenNN::NeuralNetwork> neural_networks_;
+    std::vector<tiny_dnn::network<tiny_dnn::sequential>> neural_networks_;
     std::vector<double> neural_rewards_;
     int current_network_ = 0;
     bool is_alive_ = true;
     int current_generation_ = 0;
+    int decodeNNResult(tiny_dnn::vec_t result);
 
 public:
     ~NeuralNetworks();
@@ -31,8 +32,11 @@ public:
 
     void kill();
     bool isAlive();
+    bool isAliveReset();
     int getGeneration();
     double reward(double reward);
+    double getLastScore();
+    void resetRewards();
 };
 
 #endif /* NeuralNetworks_hpp */

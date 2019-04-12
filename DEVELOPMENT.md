@@ -1,7 +1,6 @@
 # Week 0
 ## In Progress
   - Understand how genetic algorithm works
-  - Find a NN library that plays nicely with oFx
 ## Completed
   - Download OpenNN
   - Compile OpenNN
@@ -14,3 +13,9 @@
    - OpenNN does not compile, removed
    - Download and compile tiny-dnn (better supported and documented)
      - Fixed naming and import conflicts 
+  - Find a NN library that plays nicely with oFx
+    - Using tiny_dnn as NN library of choice
+  - Added starvation time for snake
+  - Added loop penalty and kill off to prevent program from crashing
+  - Fixed snake color generation
+    - Original colors were often too bright to be visible and not painful to look at.

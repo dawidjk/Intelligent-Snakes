@@ -23,7 +23,7 @@ private:
 	GameState current_state_ = IN_PROGRESS; // The current state of the game, used to determine possible actions
 	Snake game_snake_; // The object that represents the user controlled snake
 	SnakeFood game_food_; // The object that represents the food pellet the user is attempting to eat with the snake
-
+    bool should_press_ = true;
 	bool should_update_ = true;     // A flag boolean used in the update() function. Due to the frame dependent animation we've
 									// written, and the relatively low framerate, a bug exists where users can prefire direction 
 									// changes faster than a frame update. Our solution is to force a call to update on direction
