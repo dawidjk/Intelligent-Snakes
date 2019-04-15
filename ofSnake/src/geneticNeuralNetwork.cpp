@@ -15,7 +15,7 @@ void GeneticNeuralNetwork::setup() {
 int GeneticNeuralNetwork::getNextMove(
                                   bool wall_straight, bool wall_left, bool wall_right, bool food_straight, bool food_left, bool food_right) {
     if (!neural_networks_.isAliveReset()) {
-        std::cout << "Generation: " << neural_networks_.getGeneration() << " Score: " << neural_networks_.getLastScore() << std::endl;
+        //std::cout << "Generation: " << neural_networks_.getGeneration() << " Score: " << neural_networks_.getLastScore() << std::endl;
         return 'r';
     }
     
@@ -77,7 +77,7 @@ char GeneticNeuralNetwork::turnLeft() {
         current_direction_ += DIRECTIONS;
     }
     
-    std::cout << "Turning Left" << std::endl;
+    //std::cout << "Turning Left" << std::endl;
     
     return directions_[current_direction_];
 }
@@ -100,7 +100,7 @@ char GeneticNeuralNetwork::turnRight() {
         current_direction_ -= DIRECTIONS;
     }
     
-    std::cout << "Turning Right" << std::endl;
+    //std::cout << "Turning Right" << std::endl;
     
     return directions_[current_direction_];
 }
@@ -119,7 +119,7 @@ void GeneticNeuralNetwork::kill() {
 }
 
 void GeneticNeuralNetwork::penaltyKill() {
-    std::cout << "***PENALTY KILL***" << std::endl;
+    //std::cout << "***PENALTY KILL***" << std::endl;
     
     neural_networks_.reward(PENALTY);
     neural_networks_.kill();
@@ -131,4 +131,8 @@ void GeneticNeuralNetwork::ateFood() {
 
 bool GeneticNeuralNetwork::isAlive() {
     return neural_networks_.isAlive();
+}
+
+bool GeneticNeuralNetwork::isBreeding() {
+    return neural_networks_.isBreeding();
 }

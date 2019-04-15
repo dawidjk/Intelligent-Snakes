@@ -9,7 +9,7 @@
 #define geneticNeuralNetwork_hpp
 
 #define DIRECTIONS 4
-#define NUM_GENERATIONS 1000
+#define NUM_GENERATIONS 100
 #define REWARD_POSITIVE 1
 #define REWARD_NEGATIVE -1.5
 #define REWARD_FOOD 10
@@ -39,6 +39,7 @@ public:
     void kill();
     void ateFood();
     bool isAlive();
+    bool isBreeding();
     void penaltyKill();
 };
 
