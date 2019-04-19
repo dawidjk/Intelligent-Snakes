@@ -9,14 +9,16 @@
 #define NeuralNetworks_hpp
 
 #define BREED_PERCENT 0.1
+#define MUTATION_RATE 0.1
 #define NETWORKS 20
 #define INPUT_LAYER 6
 #define INNER_LAYER 5
 #define OUTPUT_LAYER 3
 
+#include <iostream>
 #include <vector>
-#include "tiny_dnn/tiny_dnn/tiny_dnn.h"
 
+#include "tiny_dnn/tiny_dnn/tiny_dnn.h"
 
 class NeuralNetworks {
     std::vector<tiny_dnn::network<tiny_dnn::sequential>> neural_networks_;
@@ -29,6 +31,8 @@ class NeuralNetworks {
     int decodeNNResult(tiny_dnn::vec_t result);
     void pickBestParents();
     void breedParents();
+    double getRandomDouble();
+    double getRandomDoublePositive();
 
 public:
     ~NeuralNetworks();

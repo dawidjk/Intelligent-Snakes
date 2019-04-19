@@ -146,7 +146,7 @@ void NeuralNetworks::breedParents() {
             p_two = std::rand() % parents_.size();
         }
         
-        std::cout << parents_[p_one].to_json(tiny_dnn::content_type::weights) << std::endl;
+        //std::cout << parents_[p_one].to_json(tiny_dnn::content_type::weights) << std::endl;
         // Loop through each layer of parents
         for (int j = 0; j < parents_.at(p_one).depth(); ++j) {
             std::vector<tiny_dnn::vec_t*> parent_one;
@@ -183,36 +183,80 @@ void NeuralNetworks::breedParents() {
             std::sort(shuffled_one.begin(), shuffled_one.end());
             std::sort(shuffled_two.begin(), shuffled_two.end());
             
-            tiny_dnn::vec_t* layer_one = new tiny_dnn::vec_t;
-            tiny_dnn::vec_t* layer_two = new tiny_dnn::vec_t;
+            std::vector<std::vector<float>> layers;
+            
+            for (int len = 0; len < 2; ++len) {
+                std::vector<float> temp_vec;
+                layers.push_back(temp_vec);
+            }
             
             for (int x = 0; x < shuffled_one.size()/2; ++x) {
-                layer_one->push_back(shuffled_one.at(x).second);
-                layer_two->push_back(shuffled_one.at(shuffled_one.size() - x - 1).second);
+                if (getRandomDoublePositive() < MUTATION_RATE) {
+                    layers.at(0).push_back(getRandomDouble());
+                    layers.at(1).push_back(getRandomDouble());
+                } else {
+                    layers.at(0).push_back(shuffled_one.at(x).second);
+                    layers.at(1).push_back(shuffled_one.at(shuffled_one.size() - x - 1).second);
+                }
+                
+                if (getRandomDoublePositive() < MUTATION_RATE) {
+                    layers.at(0).push_back(getRandomDouble());
+                    layers.at(1).push_back(getRandomDouble());
+                } else {
+                    layers.at(0).push_back(shuffled_two.at(x).second);
+                    layers.at(1).push_back(shuffled_two.at(shuffled_two.size() - x - 1).second);
+                }
             }
             
             if (shuffled_one.size() % 2 == 1) {
                 int middle = (int) shuffled_one.size()/2 + 1;
-                layer_one->push_back(shuffled_one.at(middle).second);
+                layers.at(0).push_back(shuffled_one.at(middle).second);
+                layers.at(1).push_back(shuffled_two.at(middle).second);
             }
             
-            for (int x = 0; x < shuffled_two.size()/2; x++) {
-                layer_one->push_back(shuffled_two.at(x).second);
-                layer_two->push_back(shuffled_two.at(shuffled_two.size() - x - 1).second);
+            for (int depth = 0; depth < 2; ++depth) {
+                if (depth == 1 && i + depth >= NETWORKS) {
+                    break;
+                }
+                
+                std::string network_string = neural_networks_.at(i + depth).to_json(tiny_dnn::content_type::weights);
+                
+                rapidjson::Document json_doc;
+                json_doc.Parse<rapidjson::kParseDefaultFlags>(network_string.c_str());
+                
+                std::string weight_index = "value" + std::to_string(j);
+                
+                rapidjson::Value& weights = json_doc[weight_index.c_str()]["value0"];
+                
+                int count = 0;
+                
+                for (rapidjson::Value::ValueIterator itr = weights.Begin(); itr != weights.End(); ++itr) {
+                    itr->SetDouble(layers.at(depth).at(count++));
+                }
+            
+                // write json_doc to string and load to nn
+                rapidjson::StringBuffer buffer;
+                rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+                json_doc.Accept(writer);
+                
+                neural_networks_.at(i + depth).from_json(buffer.GetString(), tiny_dnn::content_type::weights);
             }
-            
-            if (shuffled_two.size() % 2 == 1) {
-                int middle = (int) shuffled_two.size()/2 + 1;
-                layer_two->push_back(shuffled_two.at(middle).second);
-            }
-            
-            std::cout << std::endl;
-            
-            child_one_layer.push_back(layer_one);
-            child_two_layer.push_back(layer_two);
         }
     }
-    std::cout << "********" << std::endl;
+    
+    std::cout << getGeneration() << std::endl;
+}
+
+double NeuralNetworks::getRandomDouble(){
+    static std::default_random_engine e;
+    static std::uniform_real_distribution<> dis(-1, 1); // rage 0 - 1
+    return dis(e);
+}
+
+double NeuralNetworks::getRandomDoublePositive(){
+    static std::default_random_engine e;
+    static std::uniform_real_distribution<> dis(0, 1); // rage 0 - 1
+    return dis(e);
 }
 
 NeuralNetworks::~NeuralNetworks() {

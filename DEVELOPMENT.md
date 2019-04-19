@@ -1,6 +1,10 @@
 # Week 0
 ## In Progress
   - Understand how genetic algorithm works
+  - Save all networks on button press
+  - Load edited weights back into Neural Network
+  - Break down code into more functional code blocks - especially breed parents
+  
 ## Completed
   - Download OpenNN
   - Compile OpenNN
@@ -19,3 +23,6 @@
   - Added loop penalty and kill off to prevent program from crashing
   - Fixed snake color generation
     - Original colors were often too bright to be visible and not painful to look at.
+  - Implement a JSON library to edit Network weights
+  - Created algorithm for breeding parents to produce children.
+  - After each Generation, add mutation to percentage of Networks

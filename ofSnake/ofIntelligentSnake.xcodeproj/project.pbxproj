@@ -41,7 +41,6 @@
 /* Begin PBXFileReference section */
 		082B731D1CE0E9DE60D1A863 /* ofxSliderGroup.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = ofxSliderGroup.cpp; path = ../../../../Downloads/of_v0.10.1_osx_release/addons/ofxGui/src/ofxSliderGroup.cpp; sourceTree = SOURCE_ROOT; };
 		0BEC8BC742C263C245ADB512 /* ofxSlider.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = ofxSlider.cpp; path = ../../../../Downloads/of_v0.10.1_osx_release/addons/ofxGui/src/ofxSlider.cpp; sourceTree = SOURCE_ROOT; };
-		275DC26022654D01002DB74B /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; path = include; sourceTree = "<group>"; };
 		27729178225AEA59005ECCA7 /* geneticNeuralNetwork.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = geneticNeuralNetwork.cpp; sourceTree = "<group>"; };
 		27729179225AEA59005ECCA7 /* geneticNeuralNetwork.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = geneticNeuralNetwork.hpp; sourceTree = "<group>"; };
 		2772917D225B106D005ECCA7 /* NeuralNetworks.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NeuralNetworks.cpp; sourceTree = "<group>"; };
@@ -618,7 +617,6 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				275DC26022654D01002DB74B /* include */,
 				2772918B225FCFA7005ECCA7 /* tiny_dnn */,
 				27E46D8A22568559004267B0 /* ll.h */,
 				27E46D8922568559004267B0 /* ll.hpp */,
