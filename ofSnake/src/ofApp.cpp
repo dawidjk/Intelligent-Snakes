@@ -98,9 +98,19 @@ void snakeGame::keyPressed(int key){
 		return;
 	}
     
+    if (key == '1') {
+        genetic_algorithm.save();
+    }
+    
+    if (key == '2') {
+        genetic_algorithm.load();
+    }
+    
 	int upper_key = toupper(key); // Standardize on upper case
 
     if (upper_key == 'R') {
+        total_score += game_snake_.getFoodEaten();
+        
         if (game_snake_.getFoodEaten() > longest_body_) {
             longest_body_ = game_snake_.getFoodEaten();
         }
@@ -220,4 +230,19 @@ void snakeGame::drawCurrentSnake() {
     ofRectangle text_rect = font.getStringBoundingBox(current_snake,0,0);
     
     ofDrawBitmapString(current_snake, 10, 65);
+}
+
+void snakeGame::drawAverageScore() {
+    if (genetic_algorithm.getGeneration() != last_generation) {
+        last_generation = genetic_algorithm.getGeneration();
+        total_score = 0;
+    }
+    
+    string average_score = "Average Generation Score: " + std::to_string(total_score / genetic_algorithm.getGeneration());
+    
+    ofSetColor(0, 0, 0);
+    ofTrueTypeFont font;
+    ofRectangle text_rect = font.getStringBoundingBox(average_score,0,0);
+    
+    ofDrawBitmapString(average_score, 10, 80);
 }

@@ -44,6 +44,8 @@ public:
     double getScore();
     int getGeneration();
     int getCurrentSnake();
+    void save();
+    void load();
 };
 
 #endif /* geneticNeuralNetwork_hpp */

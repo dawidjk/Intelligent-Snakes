@@ -146,3 +146,11 @@ int GeneticNeuralNetwork::getGeneration() {
 int GeneticNeuralNetwork::getCurrentSnake() {
     return neural_networks_.getCurrentSnake();
 }
+
+void GeneticNeuralNetwork::save() {
+    neural_networks_.save();
+}
+
+void GeneticNeuralNetwork::load() {
+    neural_networks_.load();
+}

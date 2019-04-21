@@ -51,6 +51,7 @@ namespace cereal
 #include <tiny_dnn/cereal/external/rapidjson/reader.h>
 #include <tiny_dnn/cereal/external/rapidjson/document.h>
 #include <tiny_dnn/cereal/external/rapidjson/stringbuffer.h>
+//#include <tiny_dnn/cereal/external/rapidjson/istreamwrapper.h>
 #include <tiny_dnn/cereal/external/base64.hpp>
 
 #include <limits>

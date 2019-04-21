@@ -10,14 +10,16 @@
 
 #define BREED_PERCENT 0.1
 #define MUTATION_RATE 0.01
-#define NETWORKS 60
+#define NETWORKS 1000
 #define INPUT_LAYER 6
 #define INNER_LAYER 5
 #define OUTPUT_LAYER 3
-#define SAVE_PATH "~/Documents/smart_snake/"
+#define SAVE_PATH "/Users/dave07747/Documents/CS126/final-project-dawidjk/smart_snake/"
+#define SAVE_FILE "/Users/dave07747/Documents/CS126/final-project-dawidjk/smart_snake/save.json"
 
 #include <iostream>
 #include <vector>
+#include <fstream>
 
 #include "tiny_dnn/tiny_dnn/tiny_dnn.h"
 
@@ -51,6 +53,7 @@ public:
     void resetRewards();
     int getCurrentSnake();
     void save();
+    void load();
 };
 
 #endif /* NeuralNetworks_hpp */

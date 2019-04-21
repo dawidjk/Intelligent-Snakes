@@ -246,4 +246,37 @@ void NeuralNetworks::save() {
     for (int i = 0; i < NETWORKS; ++i) {
         neural_networks_.at(i).save(SAVE_PATH + std::to_string(i));
     }
+    
+    rapidjson::Document save_doc;
+    save_doc.SetObject();
+    rapidjson::Document::AllocatorType& allocator = save_doc.GetAllocator();
+    
+    save_doc.AddMember("Generation", getGeneration(), allocator);
+    
+    rapidjson::StringBuffer buffer;
+    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+    save_doc.Accept(writer);
+    
+    std::ofstream of (SAVE_FILE);
+    of << buffer.GetString();
+    
+    if (!of.good()) {
+        std::cout << "Could not save JSON file!" << std::endl;
+    }
+}
+
+void NeuralNetworks::load() {
+    for (int i = 0; i < NETWORKS; ++i) {
+        neural_networks_.at(i).load(SAVE_PATH + std::to_string(i));
+    }
+    
+    std::ifstream stream (SAVE_FILE);
+    std::string json;
+    stream >> json;
+    
+    rapidjson::Document load_doc;
+    load_doc.Parse<rapidjson::kParseDefaultFlags>(json.c_str());
+    
+    rapidjson::Value& generation = load_doc["Generation"];
+    current_generation_ = generation.GetInt();
 }
