@@ -24,7 +24,7 @@ private:
 	Snake game_snake_; // The object that represents the user controlled snake
 	SnakeFood game_food_; // The object that represents the food pellet the user is attempting to eat with the snake
     int longest_body_ = 0;
-    int total_score = 0;
+    double total_score = 0;
     int last_generation = 0;
     bool should_press_ = true;
 	bool should_update_ = true;     // A flag boolean used in the update() function. Due to the frame dependent animation we've

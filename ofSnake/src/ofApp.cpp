@@ -77,6 +77,7 @@ void snakeGame::draw(){
     drawScore();
     drawHighScore();
     drawCurrentSnake();
+    drawAverageScore();
 }
 
 /* 
@@ -236,9 +237,12 @@ void snakeGame::drawAverageScore() {
     if (genetic_algorithm.getGeneration() != last_generation) {
         last_generation = genetic_algorithm.getGeneration();
         total_score = 0;
+        std::cout << "Reset" << std::endl;
     }
     
-    string average_score = "Average Generation Score: " + std::to_string(total_score / genetic_algorithm.getGeneration());
+    string average_score = "Average Generation Score: " + std::to_string(total_score / (genetic_algorithm.getCurrentSnake() + 1));
+    
+    std::cout << total_score / (genetic_algorithm.getCurrentSnake() + 1) <<std::endl;
     
     ofSetColor(0, 0, 0);
     ofTrueTypeFont font;
