@@ -1,8 +1,6 @@
 # Week 0
 ## In Progress
   - Understand how genetic algorithm works
-  - Save all networks on button press
-  - Load edited weights back into Neural Network
   - Break down code into more functional code blocks - especially breed parents
   
 ## Completed
@@ -26,3 +24,10 @@
   - Implement a JSON library to edit Network weights
   - Created algorithm for breeding parents to produce children.
   - After each Generation, add mutation to percentage of Networks
+  - Load weights back into networks using rapidjson
+  - Enhanced parent selection algorithm - now uses roullette style selection
+  - Improved child generation - no longer randomly matches genes
+    - This caused a tremendous increase in learning rate
+  - Added Save feature (press key 1)
+  - Added Load feature (press key 2)
+  
