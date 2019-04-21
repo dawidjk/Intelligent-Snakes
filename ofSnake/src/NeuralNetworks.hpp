@@ -9,11 +9,12 @@
 #define NeuralNetworks_hpp
 
 #define BREED_PERCENT 0.1
-#define MUTATION_RATE 0.1
-#define NETWORKS 20
+#define MUTATION_RATE 0.01
+#define NETWORKS 60
 #define INPUT_LAYER 6
 #define INNER_LAYER 5
 #define OUTPUT_LAYER 3
+#define SAVE_PATH "~/Documents/smart_snake/"
 
 #include <iostream>
 #include <vector>
@@ -22,7 +23,7 @@
 
 class NeuralNetworks {
     std::vector<tiny_dnn::network<tiny_dnn::sequential>> neural_networks_;
-    std::vector<tiny_dnn::network<tiny_dnn::sequential>> parents_;
+    std::vector<std::pair<int, tiny_dnn::network<tiny_dnn::sequential>>> parents_;
     std::vector<double> neural_rewards_;
     int current_network_ = 0;
     bool is_alive_ = true;
@@ -33,6 +34,7 @@ class NeuralNetworks {
     void breedParents();
     double getRandomDouble();
     double getRandomDoublePositive();
+    tiny_dnn::network<tiny_dnn::sequential> pickParent();
 
 public:
     ~NeuralNetworks();
@@ -45,8 +47,10 @@ public:
     bool isAliveReset();
     int getGeneration();
     double reward(double reward);
-    double getLastScore();
+    double getScore();
     void resetRewards();
+    int getCurrentSnake();
+    void save();
 };
 
 #endif /* NeuralNetworks_hpp */

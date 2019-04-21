@@ -46,7 +46,10 @@ void snakeGame::update() {
     
     should_update_ = true;
     
-    if (!genetic_algorithm.isBreeding()) {
+    if (!genetic_algorithm.isBreeding() && current_state_ != PAUSED) {
+        /*std::cout << game_snake_.isStraightSafe() << game_snake_.isLeftSafe() << game_snake_.isRightSafe() << std::endl;
+        std::cout << game_snake_.isFoodStraight(game_food_.getFoodRect()) << game_snake_.isFoodLeft(game_food_.getFoodRect()) << game_snake_.isFoodRight(game_food_.getFoodRect()) << std::endl << std::endl;*/
+        
         char next_move = genetic_algorithm.getNextMove( game_snake_.isStraightSafe(), game_snake_.isLeftSafe(), game_snake_.isRightSafe(), game_snake_.isFoodStraight(game_food_.getFoodRect()), game_snake_.isFoodLeft(game_food_.getFoodRect()), game_snake_.isFoodRight(game_food_.getFoodRect()));
         
         if (next_move != game_snake_.getDirectionChar()) {
@@ -70,6 +73,10 @@ void snakeGame::draw(){
 	}
 	drawFood();
 	drawSnake();
+    drawGeneration();
+    drawScore();
+    drawHighScore();
+    drawCurrentSnake();
 }
 
 /* 
@@ -91,10 +98,13 @@ void snakeGame::keyPressed(int key){
 		return;
 	}
     
-
 	int upper_key = toupper(key); // Standardize on upper case
 
     if (upper_key == 'R') {
+        if (game_snake_.getFoodEaten() > longest_body_) {
+            longest_body_ = game_snake_.getFoodEaten();
+        }
+        
         reset();
     }
     
@@ -170,4 +180,44 @@ void snakeGame::drawGamePaused() {
 	string pause_message = "P to Unpause!";
 	ofSetColor(0, 0, 0);
 	ofDrawBitmapString(pause_message, ofGetWindowWidth() / 2, ofGetWindowHeight() / 2);
+}
+
+void snakeGame::drawGeneration() {
+    string generation_message = "Generation: " + std::to_string(genetic_algorithm.getGeneration());
+    
+    ofSetColor(0, 0, 0);
+    ofTrueTypeFont font;
+    ofRectangle text_rect = font.getStringBoundingBox(generation_message,0,0);
+
+    ofDrawBitmapString(generation_message, 10, 20);
+}
+
+void snakeGame::drawScore() {
+    string score_message = "Score: " + std::to_string(genetic_algorithm.getScore());
+    
+    ofSetColor(0, 0, 0);
+    ofTrueTypeFont font;
+    ofRectangle text_rect = font.getStringBoundingBox(score_message,0,0);
+
+    ofDrawBitmapString(score_message, 10, 35);
+}
+
+void snakeGame::drawHighScore() {
+    string score_message = "High Score: " + std::to_string(longest_body_);
+    
+    ofSetColor(0, 0, 0);
+    ofTrueTypeFont font;
+    ofRectangle text_rect = font.getStringBoundingBox(score_message,0,0);
+    
+    ofDrawBitmapString(score_message, 10, 50);
+}
+
+void snakeGame::drawCurrentSnake() {
+    string current_snake = "Current Snake: " + std::to_string(genetic_algorithm.getCurrentSnake());
+    
+    ofSetColor(0, 0, 0);
+    ofTrueTypeFont font;
+    ofRectangle text_rect = font.getStringBoundingBox(current_snake,0,0);
+    
+    ofDrawBitmapString(current_snake, 10, 65);
 }

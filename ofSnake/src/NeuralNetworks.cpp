@@ -37,6 +37,7 @@ bool NeuralNetworks::isAliveReset() {
         is_breeding_ = false;
     }
     
+    //std::cout << getLastScore() << std::endl;
     is_alive_ = true;
     return false;
 }
@@ -53,19 +54,8 @@ int NeuralNetworks::getGeneration() {
     return current_generation_;
 }
 
-double NeuralNetworks::getLastScore() {
-    int previous_network = current_network_ - 1;
-    double reward;
-    
-    if (previous_network < 0) {
-        previous_network = NETWORKS - 1;
-        reward = neural_rewards_[previous_network];
-        resetRewards();
-    } else {
-        reward = neural_rewards_[previous_network];
-    }
-    
-    return neural_rewards_[previous_network];
+double NeuralNetworks::getScore() {
+    return neural_rewards_[current_network_];
 }
 
 double NeuralNetworks::reward(double reward) {
@@ -110,8 +100,6 @@ void NeuralNetworks::resetRewards() {
     for (int i = 0; i < neural_rewards_.size(); ++i) {
         neural_rewards_[i] = 0;
     }
-    
-    current_generation_++;
 }
 
 bool sortDesc(const std::pair<int, tiny_dnn::network<tiny_dnn::sequential>> &a,
@@ -130,58 +118,47 @@ void NeuralNetworks::pickBestParents() {
     parents_.clear();
     
     for (int i = 0; i < NETWORKS * BREED_PERCENT; ++i) {
-        parents_.push_back(scores.at(i).second);
+        parents_.push_back(scores.at(i));
         //std::cout << scores.at(i).first << std::endl;
+    }
+    
+    for (int i = 0; i < parents_.size(); ++i) {
+        neural_networks_.at(i) = parents_.at(i).second;
     }
 }
 
-void NeuralNetworks::breedParents() {
-    // Vector of Neural Networks
-    for (int i = (int) parents_.size(); i < NETWORKS; i += 2) { // Loop through each NN
-        // Choose random two parents
-        int p_one = std::rand() % parents_.size();
-        int p_two = std::rand() % parents_.size();
+tiny_dnn::network<tiny_dnn::sequential> NeuralNetworks::pickParent() {
+    int total_score = 0;
+    
+    for (int i = 0; i < parents_.size(); ++i) {
+        total_score += parents_.at(i).first;
+    }
+    
+    int parent_score = std::rand() % total_score;
+    int cumulative_score = 0;
+    
+    for (int i = 0; i < parents_.size(); ++i) {
+        cumulative_score += parents_.at(i).first;
         
-        while (p_one == p_two) {
-            p_two = std::rand() % parents_.size();
+        if (cumulative_score >= parent_score) {
+            return parents_.at(i).second;
         }
-        
-        //std::cout << parents_[p_one].to_json(tiny_dnn::content_type::weights) << std::endl;
-        // Loop through each layer of parents
-        for (int j = 0; j < parents_.at(p_one).depth(); ++j) {
+    }
+    
+    return parents_.at(parents_.size() - 1).second;
+}
+
+void NeuralNetworks::breedParents() {
+    for (int i = (int) parents_.size(); i < NETWORKS; i += 2) { // Loop through each NN
+        for (int j = 0; j < parents_.at(0).second.depth(); ++j) {
             std::vector<tiny_dnn::vec_t*> parent_one;
             std::vector<tiny_dnn::vec_t*> parent_two;
-            parent_one = parents_[p_one][j]->weights();
-            parent_two = parents_[p_two][j]->weights();
+            parent_one = pickParent()[j]->weights();
+            parent_two = pickParent()[j]->weights();
             
             if (parent_one.size() == 0 || parent_two.size() == 0) {
                 continue;
             }
-            
-            std::vector<tiny_dnn::vec_t*> child_one_layer;
-            std::vector<tiny_dnn::vec_t*> child_two_layer;
-            
-            std::vector<int> crossover_one;
-            std::vector<int> crossover_two;
-            
-            for (int k = 0; k < parent_one.at(0)->size(); ++k) {
-                crossover_one.push_back(k);
-                crossover_two.push_back(k);
-            }
-            
-            std::random_shuffle(crossover_one.begin(), crossover_one.end());
-            std::random_shuffle(crossover_two.begin(), crossover_two.end());
-            
-            std::vector<std::pair<int, float>> shuffled_one;
-            std::vector<std::pair<int, float>> shuffled_two;
-            
-            for (int x = 0; x < parent_one.at(0)->size(); ++x) {
-                shuffled_one.push_back(std::make_pair(crossover_one.at(x), parent_one.at(0)->at(x)));
-                shuffled_two.push_back(std::make_pair(crossover_two.at(x), parent_two.at(0)->at(x)));
-            }
-            
-            std::sort(shuffled_one.begin(), shuffled_one.end());
-            std::sort(shuffled_two.begin(), shuffled_two.end());
             
             std::vector<std::vector<float>> layers;
             
@@ -190,28 +167,25 @@ void NeuralNetworks::breedParents() {
                 layers.push_back(temp_vec);
             }
             
-            for (int x = 0; x < shuffled_one.size()/2; ++x) {
+            for (int k = 0; k < parent_one.at(0)->size(); ++k) {
+                int child_layer_one = 0;
+                int child_layer_two = 1;
+                
+                if (getRandomDoublePositive() > 0.5) {
+                    child_layer_one = 1;
+                    child_layer_two = 0;
+                }
+                
+                layers.at(child_layer_one).push_back(parent_one.at(0)->at(k));
+                layers.at(child_layer_two).push_back(parent_two.at(0)->at(k));
+                
                 if (getRandomDoublePositive() < MUTATION_RATE) {
-                    layers.at(0).push_back(getRandomDouble());
-                    layers.at(1).push_back(getRandomDouble());
-                } else {
-                    layers.at(0).push_back(shuffled_one.at(x).second);
-                    layers.at(1).push_back(shuffled_one.at(shuffled_one.size() - x - 1).second);
+                    layers.at(child_layer_one).at(k) = getRandomDouble();
                 }
                 
                 if (getRandomDoublePositive() < MUTATION_RATE) {
-                    layers.at(0).push_back(getRandomDouble());
-                    layers.at(1).push_back(getRandomDouble());
-                } else {
-                    layers.at(0).push_back(shuffled_two.at(x).second);
-                    layers.at(1).push_back(shuffled_two.at(shuffled_two.size() - x - 1).second);
+                    layers.at(child_layer_two).at(k) = getRandomDouble();
                 }
-            }
-            
-            if (shuffled_one.size() % 2 == 1) {
-                int middle = (int) shuffled_one.size()/2 + 1;
-                layers.at(0).push_back(shuffled_one.at(middle).second);
-                layers.at(1).push_back(shuffled_two.at(middle).second);
             }
             
             for (int depth = 0; depth < 2; ++depth) {
@@ -244,7 +218,7 @@ void NeuralNetworks::breedParents() {
         }
     }
     
-    std::cout << getGeneration() << std::endl;
+    //std::cout << getGeneration() << std::endl;
 }
 
 double NeuralNetworks::getRandomDouble(){
@@ -262,4 +236,14 @@ double NeuralNetworks::getRandomDoublePositive(){
 NeuralNetworks::~NeuralNetworks() {
     neural_networks_.clear();
     neural_rewards_.clear();
+}
+
+int NeuralNetworks::getCurrentSnake() {
+    return current_network_;
+}
+
+void NeuralNetworks::save() {
+    for (int i = 0; i < NETWORKS; ++i) {
+        neural_networks_.at(i).save(SAVE_PATH + std::to_string(i));
+    }
 }

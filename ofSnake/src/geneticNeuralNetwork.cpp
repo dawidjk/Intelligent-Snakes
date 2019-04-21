@@ -14,16 +14,15 @@ void GeneticNeuralNetwork::setup() {
 
 int GeneticNeuralNetwork::getNextMove(
                                   bool wall_straight, bool wall_left, bool wall_right, bool food_straight, bool food_left, bool food_right) {
-    if (!neural_networks_.isAliveReset()) {
-        //std::cout << "Generation: " << neural_networks_.getGeneration() << " Score: " << neural_networks_.getLastScore() << std::endl;
-        return 'r';
-    }
-    
     starve_count_++;
     
     if (starve_count_ > STARVE_LIMIT) {
         starve_count_ = 0;
         penaltyKill();
+    }
+    
+    if (!neural_networks_.isAliveReset()) {
+        return 'r';
     }
     
     switch (neural_networks_.getNextMove(wall_straight, wall_left, wall_right, food_straight, food_left, food_right)) {
@@ -119,13 +118,12 @@ void GeneticNeuralNetwork::kill() {
 }
 
 void GeneticNeuralNetwork::penaltyKill() {
-    //std::cout << "***PENALTY KILL***" << std::endl;
-    
     neural_networks_.reward(PENALTY);
     neural_networks_.kill();
 }
 
 void GeneticNeuralNetwork::ateFood() {
+    starve_count_ = 0;
     neural_networks_.reward(REWARD_FOOD);
 }
 
@@ -135,4 +133,16 @@ bool GeneticNeuralNetwork::isAlive() {
 
 bool GeneticNeuralNetwork::isBreeding() {
     return neural_networks_.isBreeding();
+}
+
+double GeneticNeuralNetwork::getScore() {
+    return neural_networks_.getScore();
+}
+
+int GeneticNeuralNetwork::getGeneration() {
+    return neural_networks_.getGeneration();
+}
+
+int GeneticNeuralNetwork::getCurrentSnake() {
+    return neural_networks_.getCurrentSnake();
 }

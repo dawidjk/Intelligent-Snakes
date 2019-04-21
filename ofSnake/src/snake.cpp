@@ -235,22 +235,22 @@ bool Snake::isFoodStraight(ofRectangle food) {
         case UP:
             intersects = food.intersects(head_rect.getTopLeft(), head_rect.getTopRight());
             straight = head_rect.getTopLeft().y > food.getBottomLeft().y;
-            return intersects && straight;
+            return intersects || straight;
             
         case DOWN:
             intersects = food.intersects(head_rect.getTopLeft(), head_rect.getTopRight());
             straight = head_rect.getBottomLeft().y < food.getTopLeft().y;
-            return intersects && straight;
+            return intersects || straight;
             
         case LEFT:
             intersects = food.intersects(head_rect.getTopLeft(), head_rect.getBottomLeft());
             straight = head_rect.getBottomLeft().x > food.getBottomRight().x;
-            return intersects && straight;
+            return intersects || straight;
             
         case RIGHT:
             intersects = food.intersects(head_rect.getTopLeft(), head_rect.getBottomLeft());
             straight = head_rect.getBottomRight().x < food.getBottomLeft().x;
-            return intersects && straight;
+            return intersects || straight;
     }
     
     return false;
