@@ -9,16 +9,15 @@
 #define geneticNeuralNetwork_hpp
 
 #define DIRECTIONS 4
-#define NUM_GENERATIONS 100
 #define REWARD_POSITIVE 1
 #define REWARD_NEGATIVE -1.5
-#define REWARD_FOOD 50
-#define PENALTY -150
+#define REWARD_FOOD 10
+#define PENALTY -500
 #define DIRECTION_RIGHT 1
 #define DIRECTION_LEFT 2
 #define DIRECTION_STRAIGHT 0
 #define STUCK_LIMIT 50
-#define STARVE_LIMIT 1000
+#define STARVE_LIMIT 2000
 
 #include "NeuralNetworks.hpp"
 

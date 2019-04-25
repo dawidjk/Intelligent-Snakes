@@ -123,18 +123,21 @@ bool Snake::isDeadPredictor(SnakeBody *head) {
         || head->position.y < 0
         || head->position.x > screen_dims_.x - body_size_.x
         || head->position.y > screen_dims_.y - body_size_.y) {
+        //std::cout << "dims" << std::endl;
         return true;
     }
     
     // no other body part, return without evaluating
-    if (head->next == nullptr) {
+    if (head->next == nullptr || head->next->next == nullptr) {
         return false;
     }
+    
     // If the snake's head is intersecting with any piece of its body it is dead
-    ofRectangle head_rect(head->position.x, head_->position.y, body_size_.x, body_size_.y);
-    for (SnakeBody* curr = head; curr->next; curr = curr->next) {
+    ofRectangle head_rect(head->position.x, head->position.y, body_size_.x, body_size_.y);
+    for (SnakeBody* curr = head->next->next; curr->next; curr = curr->next) {
         ofRectangle body_rect(curr->position.x, curr->position.y, body_size_.x, body_size_.y);
         if (head_rect.intersects(body_rect)) {
+            //std::cout << "inter" << std::endl;
             return true;
         }
     }
@@ -145,7 +148,7 @@ bool Snake::isDeadPredictor(SnakeBody *head) {
 
 bool Snake::isStraightSafe() {
     SnakeBody *temp_head = new SnakeBody();
-    temp_head->next = head_->next;
+    temp_head->next = head_;
     temp_head->color = head_->color;
     ofVec2f temp_vec;
     switch (current_direction_) {
@@ -154,11 +157,11 @@ bool Snake::isStraightSafe() {
             break;
             
         case DOWN:
-            temp_vec.set(head_->position.x, head_->position.y + body_size_.y);
+            temp_vec.set(head_->position.x, head_->position.y +  body_size_.y);
             break;
             
         case LEFT:
-            temp_vec.set(head_->position.x - body_size_.x, head_->position.y);
+            temp_vec.set(head_->position.x -  body_size_.x, head_->position.y);
             break;
             
         case RIGHT:
@@ -172,7 +175,7 @@ bool Snake::isStraightSafe() {
 
 bool Snake::isLeftSafe() {
     SnakeBody *temp_head = new SnakeBody();
-    temp_head->next = head_->next;
+    temp_head->next = head_;
     temp_head->color = head_->color;
     ofVec2f temp_vec;
     switch (current_direction_) {
@@ -198,7 +201,7 @@ bool Snake::isLeftSafe() {
 
 bool Snake::isRightSafe() {
     SnakeBody *temp_head = new SnakeBody();
-    temp_head->next = head_->next;
+    temp_head->next = head_;
     temp_head->color = head_->color;
     ofVec2f temp_vec;
     switch (current_direction_) {

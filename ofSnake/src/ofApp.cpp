@@ -38,6 +38,7 @@ void snakeGame::update() {
 			game_snake_.update();
 			
 			if (game_snake_.isDead()) {
+                std::cout << "DIED" << std::endl;
 				current_state_ = FINISHED;
                 genetic_algorithm.kill();
 			}
@@ -47,9 +48,7 @@ void snakeGame::update() {
     should_update_ = true;
     
     if (!genetic_algorithm.isBreeding() && current_state_ != PAUSED) {
-        /*std::cout << game_snake_.isStraightSafe() << game_snake_.isLeftSafe() << game_snake_.isRightSafe() << std::endl;
-        std::cout << game_snake_.isFoodStraight(game_food_.getFoodRect()) << game_snake_.isFoodLeft(game_food_.getFoodRect()) << game_snake_.isFoodRight(game_food_.getFoodRect()) << std::endl << std::endl;*/
-        
+        std::cout << game_snake_.isStraightSafe() << game_snake_.isLeftSafe() << game_snake_.isRightSafe() << std::endl;
         char next_move = genetic_algorithm.getNextMove( game_snake_.isStraightSafe(), game_snake_.isLeftSafe(), game_snake_.isRightSafe(), game_snake_.isFoodStraight(game_food_.getFoodRect()), game_snake_.isFoodLeft(game_food_.getFoodRect()), game_snake_.isFoodRight(game_food_.getFoodRect()));
         
         if (next_move != game_snake_.getDirectionChar()) {
@@ -99,15 +98,15 @@ void snakeGame::keyPressed(int key){
 		return;
 	}
     
+	int upper_key = toupper(key); // Standardize on upper case
+    
     if (key == '1') {
         genetic_algorithm.save();
     }
     
-    if (key == '2') {
+    if (upper_key == 'L') {
         genetic_algorithm.load();
     }
-    
-	int upper_key = toupper(key); // Standardize on upper case
 
     if (upper_key == 'R') {
         total_score += game_snake_.getFoodEaten();
@@ -237,7 +236,6 @@ void snakeGame::drawAverageScore() {
     if (genetic_algorithm.getGeneration() != last_generation) {
         last_generation = genetic_algorithm.getGeneration();
         total_score = 0;
-        std::cout << "Reset" << std::endl;
     }
     
     string average_score = "Average Generation Score: " + std::to_string(total_score / (genetic_algorithm.getCurrentSnake() + 1));

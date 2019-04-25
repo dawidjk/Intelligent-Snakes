@@ -9,8 +9,8 @@
 #define NeuralNetworks_hpp
 
 #define BREED_PERCENT 0.1
-#define MUTATION_RATE 0.01
-#define NETWORKS 1000
+#define MUTATION_RATE 0.03
+#define NETWORKS 100
 #define INPUT_LAYER 6
 #define INNER_LAYER 5
 #define OUTPUT_LAYER 3

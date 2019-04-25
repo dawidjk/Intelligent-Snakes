@@ -119,12 +119,13 @@ void NeuralNetworks::pickBestParents() {
     
     for (int i = 0; i < NETWORKS * BREED_PERCENT; ++i) {
         parents_.push_back(scores.at(i));
-        //std::cout << scores.at(i).first << std::endl;
+        std::cout << scores.at(i).first << std::endl;
     }
     
     for (int i = 0; i < parents_.size(); ++i) {
         neural_networks_.at(i) = parents_.at(i).second;
     }
+    std::cout << "******" << std::endl;
 }
 
 tiny_dnn::network<tiny_dnn::sequential> NeuralNetworks::pickParent() {
@@ -208,7 +209,6 @@ void NeuralNetworks::breedParents() {
                     itr->SetDouble(layers.at(depth).at(count++));
                 }
             
-                // write json_doc to string and load to nn
                 rapidjson::StringBuffer buffer;
                 rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
                 json_doc.Accept(writer);
@@ -217,8 +217,6 @@ void NeuralNetworks::breedParents() {
             }
         }
     }
-    
-    //std::cout << getGeneration() << std::endl;
 }
 
 double NeuralNetworks::getRandomDouble(){
