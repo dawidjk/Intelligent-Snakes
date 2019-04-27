@@ -6,6 +6,7 @@ using namespace snakelinkedlist;
 // Setup method
 void snakeGame::setup(){
 	ofSetWindowTitle("Intelligent Snake");
+    ofBackground(124,124,124);
 
 	srand(static_cast<unsigned>(time(0))); // Seed random with current time
     genetic_algorithm.setup();
@@ -188,14 +189,14 @@ void snakeGame::drawGameOver() {
 
 void snakeGame::drawGamePaused() {
 	string pause_message = "P to Unpause!";
-	ofSetColor(0, 0, 0);
+	ofSetColor(255, 255, 255);
 	ofDrawBitmapString(pause_message, ofGetWindowWidth() / 2, ofGetWindowHeight() / 2);
 }
 
 void snakeGame::drawGeneration() {
     string generation_message = "Generation: " + std::to_string(genetic_algorithm.getGeneration());
     
-    ofSetColor(0, 0, 0);
+    ofSetColor(255, 255, 255);
     ofTrueTypeFont font;
     ofRectangle text_rect = font.getStringBoundingBox(generation_message,0,0);
 
@@ -203,7 +204,7 @@ void snakeGame::drawGeneration() {
 }
 
 void snakeGame::drawScore() {
-    string score_message = "Score: " + std::to_string(genetic_algorithm.getScore());
+    string score_message = "Score: " + std::to_string(game_snake_.getFoodEaten());
     
     ofSetColor(0, 0, 0);
     ofTrueTypeFont font;
