@@ -10,9 +10,9 @@
 void NeuralNetworks::setup() {
     for (int i = 0; i < NETWORKS; i++) {
         tiny_dnn::network<tiny_dnn::sequential> temp_net;
-        temp_net << tiny_dnn::fully_connected_layer(6, 5);
+        temp_net << tiny_dnn::fully_connected_layer(INPUT_LAYER, INNER_LAYER);
         temp_net << tiny_dnn::activation::tanh();
-        temp_net << tiny_dnn::fully_connected_layer(5, 3);
+        temp_net << tiny_dnn::fully_connected_layer(INNER_LAYER, OUTPUT_LAYER);
         temp_net << tiny_dnn::activation::tanh();
         neural_networks_.push_back(temp_net);
         neural_rewards_.push_back(0);
@@ -37,7 +37,6 @@ bool NeuralNetworks::isAliveReset() {
         is_breeding_ = false;
     }
     
-    //std::cout << getLastScore() << std::endl;
     is_alive_ = true;
     return false;
 }
@@ -62,20 +61,19 @@ double NeuralNetworks::reward(double reward) {
     return neural_rewards_[current_network_] += reward;
 }
 
-int NeuralNetworks::getNextMove(bool wall_straight, bool wall_left, bool wall_right, bool food_straight, bool food_left, bool food_right) {
+int NeuralNetworks::getNextMove(bool wall_s, bool wall_l, bool wall_r, bool food_s, bool food_l, bool food_r) {
     tiny_dnn::vec_t input;
     
-    input.push_back(wall_straight);
-    input.push_back(wall_left);
-    input.push_back(wall_right);
-    input.push_back(food_straight);
-    input.push_back(food_left);
-    input.push_back(food_right);
+    input.push_back(wall_s);
+    input.push_back(wall_l);
+    input.push_back(wall_r);
+    input.push_back(food_s);
+    input.push_back(food_l);
+    input.push_back(food_r);
     
     tiny_dnn::vec_t results = neural_networks_[current_network_].predict(input);
     
     return decodeNNResult(results);
-    //return std::rand() % 4;
 }
 
 int NeuralNetworks::decodeNNResult(tiny_dnn::vec_t result) {
@@ -119,13 +117,11 @@ void NeuralNetworks::pickBestParents() {
     
     for (int i = 0; i < NETWORKS * BREED_PERCENT; ++i) {
         parents_.push_back(scores.at(i));
-        std::cout << scores.at(i).first << std::endl;
     }
     
     for (int i = 0; i < parents_.size(); ++i) {
         neural_networks_.at(i) = parents_.at(i).second;
     }
-    std::cout << "******" << std::endl;
 }
 
 tiny_dnn::network<tiny_dnn::sequential> NeuralNetworks::pickParent() {
@@ -150,7 +146,7 @@ tiny_dnn::network<tiny_dnn::sequential> NeuralNetworks::pickParent() {
 }
 
 void NeuralNetworks::breedParents() {
-    for (int i = (int) parents_.size(); i < NETWORKS; i += 2) { // Loop through each NN
+    for (int i = (int) parents_.size(); i < NETWORKS; i += 2) {
         for (int j = 0; j < parents_.at(0).second.depth(); ++j) {
             std::vector<tiny_dnn::vec_t*> parent_one;
             std::vector<tiny_dnn::vec_t*> parent_two;
@@ -163,7 +159,7 @@ void NeuralNetworks::breedParents() {
             
             std::vector<std::vector<float>> layers;
             
-            for (int len = 0; len < 2; ++len) {
+            for (int len = 0; len < LAYER_SIZE; ++len) {
                 std::vector<float> temp_vec;
                 layers.push_back(temp_vec);
             }
@@ -172,7 +168,7 @@ void NeuralNetworks::breedParents() {
                 int child_layer_one = 0;
                 int child_layer_two = 1;
                 
-                if (getRandomDoublePositive() > 0.5) {
+                if (getRandomDoublePositive() > HALF_CHANCE) {
                     child_layer_one = 1;
                     child_layer_two = 0;
                 }
@@ -189,45 +185,51 @@ void NeuralNetworks::breedParents() {
                 }
             }
             
-            for (int depth = 0; depth < 2; ++depth) {
-                if (depth == 1 && i + depth >= NETWORKS) {
-                    break;
-                }
-                
-                std::string network_string = neural_networks_.at(i + depth).to_json(tiny_dnn::content_type::weights);
-                
-                rapidjson::Document json_doc;
-                json_doc.Parse<rapidjson::kParseDefaultFlags>(network_string.c_str());
-                
-                std::string weight_index = "value" + std::to_string(j);
-                
-                rapidjson::Value& weights = json_doc[weight_index.c_str()]["value0"];
-                
-                int count = 0;
-                
-                for (rapidjson::Value::ValueIterator itr = weights.Begin(); itr != weights.End(); ++itr) {
-                    itr->SetDouble(layers.at(depth).at(count++));
-                }
-            
-                rapidjson::StringBuffer buffer;
-                rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-                json_doc.Accept(writer);
-                
-                neural_networks_.at(i + depth).from_json(buffer.GetString(), tiny_dnn::content_type::weights);
-            }
+            modifyWeights(i, j, layers);
         }
+    }
+}
+
+void NeuralNetworks::modifyWeights(int index_out, int index_in, std::vector<std::vector<float>> layers) {
+    for (int depth = 0; depth < LAYER_SIZE; ++depth) {
+        if (depth == 1 && index_out + depth >= NETWORKS) {
+            break;
+        }
+        
+        std::string network_string = neural_networks_.at(index_out + depth).to_json(tiny_dnn::content_type::weights);
+        
+        rapidjson::Document json_doc;
+        json_doc.Parse<rapidjson::kParseDefaultFlags>(network_string.c_str());
+        
+        std::string weight_index = WEIGHT_NAME + std::to_string(index_in);
+        
+        rapidjson::Value& weights = json_doc[weight_index.c_str()][TARGET_WEIGHT];
+        
+        int count = 0;
+        
+        for (rapidjson::Value::ValueIterator itr = weights.Begin(); itr != weights.End(); ++itr) {
+            itr->SetDouble(layers.at(depth).at(count++));
+        }
+        
+        rapidjson::StringBuffer buffer;
+        rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+        json_doc.Accept(writer);
+        
+        neural_networks_.at(index_out + depth).from_json(buffer.GetString(), tiny_dnn::content_type::weights);
     }
 }
 
 double NeuralNetworks::getRandomDouble(){
     static std::default_random_engine e;
-    static std::uniform_real_distribution<> dis(-1, 1); // rage 0 - 1
+    static std::uniform_real_distribution<> dis(SIGMOID_LOW, SIGMOID_HIGH);
+    
     return dis(e);
 }
 
 double NeuralNetworks::getRandomDoublePositive(){
     static std::default_random_engine e;
-    static std::uniform_real_distribution<> dis(0, 1); // rage 0 - 1
+    static std::uniform_real_distribution<> dis(NORMAL_LOW, NORMAL_HIGH);
+    
     return dis(e);
 }
 
@@ -249,7 +251,7 @@ void NeuralNetworks::save() {
     save_doc.SetObject();
     rapidjson::Document::AllocatorType& allocator = save_doc.GetAllocator();
     
-    save_doc.AddMember("Generation", getGeneration(), allocator);
+    save_doc.AddMember(GENERATION_TEXT, getGeneration(), allocator);
     
     rapidjson::StringBuffer buffer;
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
@@ -259,7 +261,7 @@ void NeuralNetworks::save() {
     of << buffer.GetString();
     
     if (!of.good()) {
-        std::cout << "Could not save JSON file!" << std::endl;
+        std::cout << LOAD_FAIL << std::endl;
     }
 }
 
@@ -275,6 +277,6 @@ void NeuralNetworks::load() {
     rapidjson::Document load_doc;
     load_doc.Parse<rapidjson::kParseDefaultFlags>(json.c_str());
     
-    rapidjson::Value& generation = load_doc["Generation"];
+    rapidjson::Value& generation = load_doc[GENERATION_TEXT];
     current_generation_ = generation.GetInt();
 }

@@ -33,7 +33,7 @@ class GeneticNeuralNetwork {
     char goStraight();
     
 public:
-    int getNextMove(bool wall_straight, bool wall_left, bool wall_right, bool food_straight, bool food_left, bool food_right);
+    int getNextMove(bool wall_s, bool wall_l, bool wall_r, bool food_s, bool food_l, bool food_r);
     void setup();
     void kill();
     void ateFood();
@@ -47,4 +47,4 @@ public:
     void load();
 };
 
-#endif /* geneticNeuralNetwork_hpp */
+#endif

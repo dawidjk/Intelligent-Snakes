@@ -76,8 +76,6 @@ char GeneticNeuralNetwork::turnLeft() {
         current_direction_ += DIRECTIONS;
     }
     
-    //std::cout << "Turning Left" << std::endl;
-    
     return directions_[current_direction_];
 }
 
@@ -99,16 +97,12 @@ char GeneticNeuralNetwork::turnRight() {
         current_direction_ -= DIRECTIONS;
     }
     
-    //std::cout << "Turning Right" << std::endl;
-    
     return directions_[current_direction_];
 }
 
 char GeneticNeuralNetwork::goStraight() {
     stuck_count_ = 0;
     last_action_ = DIRECTION_STRAIGHT;
-    
-    //std::cout << "Going Straight" << std::endl;
     
     return directions_[current_direction_];
 }

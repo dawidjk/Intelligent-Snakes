@@ -1,7 +1,6 @@
 #include "snakebody.h"
 
 namespace snakelinkedlist {
-    
     std::ostream& operator<<(std::ostream& os, const SnakeBodySegment& list) {
         os << list.data_;
         return os;
@@ -15,4 +14,4 @@ namespace snakelinkedlist {
         return !(lhs == rhs);
     }
     
-} // namespace snakelinkedlist
+}

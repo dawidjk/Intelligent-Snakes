@@ -20,11 +20,11 @@ Snake::Snake() {
 	float body_d = kbody_size_modifier_ * width;
 	body_size_.set(body_d, body_d);
 
-	current_direction_ = RIGHT; // Snake starts out moving right
+	current_direction_ = RIGHT;
 
 	head_ = new SnakeBody();
 	head_->position.set(0, 2 * body_d);
-	head_->color = ofColor(0, 100, 0);
+	head_->color = ofColor(0, 200, 0);
 	head_->next = nullptr;
 }
 
@@ -35,7 +35,6 @@ Snake& Snake::operator=(const Snake& other) {
 	snake_body.clear();
 	current_direction_ = RIGHT;
 
-	// Copy linked list over by creating new links
 	head_ = new SnakeBody();
 
 	SnakeBody* curr = head_;
@@ -43,8 +42,8 @@ Snake& Snake::operator=(const Snake& other) {
 	while (other_body) {
 		curr->position = other_body->position;
 		curr->color = other_body->color;
-		if (other_body->next)
-		{
+        
+		if (other_body->next) {
 			curr->next = new SnakeBody();
 		}
 
@@ -57,6 +56,7 @@ Snake& Snake::operator=(const Snake& other) {
 
 Snake::~Snake() {
 	SnakeBody* curr = head_;
+    
 	while (curr) {
 		SnakeBody* next = curr->next;
 		delete curr;
@@ -64,11 +64,11 @@ Snake::~Snake() {
 	}
 }
 
-void Snake::update() { 
-	// Move the rest of the snake up one position
+void Snake::update() {
 	SnakeBody* prev = head_;
 	SnakeBody* curr = head_->next;
 	ofVec2f curr_old_pos = head_->position;
+    
 	while (curr) {
 		ofVec2f old_pos_temp = curr->position;
 		curr->position = curr_old_pos;
@@ -78,7 +78,6 @@ void Snake::update() {
 		curr = curr->next;
 	}
 
-	// Move the head one body square in the direction the snake is moving
 	switch (current_direction_) {
 		case UP:
 			head_->position.set(head_->position.x, head_->position.y - body_size_.y);
@@ -96,53 +95,48 @@ void Snake::update() {
 }
 
 bool Snake::isDead() const {
-	// Snake is dead if the head is off screen
 	if (head_->position.x < 0
 		|| head_->position.y < 0
 		|| head_->position.x > screen_dims_.x - body_size_.x
 		|| head_->position.y > screen_dims_.y - body_size_.y) {
 		return true;
 	}
-
-	// If the snake's head is intersecting with any piece of its body it is dead
+    
 	ofRectangle head_rect(head_->position.x, head_->position.y, body_size_.x, body_size_.y);
+    
 	for (SnakeBody* curr = head_->next; curr; curr = curr->next) {
 		ofRectangle body_rect(curr->position.x, curr->position.y, body_size_.x, body_size_.y);
+        
 		if (head_rect.intersects(body_rect)) {
 			return true;
 		}
 	}
-	
-	// Snake is not dead yet :D
+    
 	return false;
 }
 
 bool Snake::isDeadPredictor(SnakeBody *head) {
-    // Snake is dead if the head is off screen
     if (head->position.x < 0
         || head->position.y < 0
         || head->position.x > screen_dims_.x - body_size_.x
         || head->position.y > screen_dims_.y - body_size_.y) {
-        //std::cout << "dims" << std::endl;
         return true;
     }
-    
-    // no other body part, return without evaluating
+
     if (head->next == nullptr || head->next->next == nullptr) {
         return false;
     }
-    
-    // If the snake's head is intersecting with any piece of its body it is dead
+
     ofRectangle head_rect(head->position.x, head->position.y, body_size_.x, body_size_.y);
+    
     for (SnakeBody* curr = head->next->next; curr->next; curr = curr->next) {
         ofRectangle body_rect(curr->position.x, curr->position.y, body_size_.x, body_size_.y);
+        
         if (head_rect.intersects(body_rect)) {
-            //std::cout << "inter" << std::endl;
             return true;
         }
     }
-    
-    // Snake is not dead yet :D
+
     return false;
 }
 
@@ -151,6 +145,7 @@ bool Snake::isStraightSafe() {
     temp_head->next = head_;
     temp_head->color = head_->color;
     ofVec2f temp_vec;
+    
     switch (current_direction_) {
         case UP:
             temp_vec.set(head_->position.x, head_->position.y - body_size_.y);
@@ -178,6 +173,7 @@ bool Snake::isLeftSafe() {
     temp_head->next = head_;
     temp_head->color = head_->color;
     ofVec2f temp_vec;
+    
     switch (current_direction_) {
         case UP:
             temp_vec.set(head_->position.x - body_size_.x, head_->position.y);
@@ -195,6 +191,7 @@ bool Snake::isLeftSafe() {
             temp_vec.set(head_->position.x, head_->position.y - body_size_.y);
             break;
     }
+    
     temp_head->position = temp_vec;
     return isDeadPredictor(temp_head);
 }
@@ -204,6 +201,7 @@ bool Snake::isRightSafe() {
     temp_head->next = head_;
     temp_head->color = head_->color;
     ofVec2f temp_vec;
+    
     switch (current_direction_) {
         case UP:
             temp_vec.set(head_->position.x + body_size_.x, head_->position.y);
@@ -221,6 +219,7 @@ bool Snake::isRightSafe() {
             temp_vec.set(head_->position.x, head_->position.y + body_size_.y);
             break;
     }
+    
     temp_head->position = temp_vec;
     return isDeadPredictor(temp_head);
 }
@@ -300,21 +299,16 @@ bool Snake::isFoodRight(ofRectangle food) {
 }
 
 void Snake::eatFood(ofColor newBodyColor) {
-	// Add a new link to our naive linked list
 	snake_body.push_back(1);
-
-	// Set up our new body piece
 	SnakeBody* new_body = new SnakeBody();
 	new_body->color = newBodyColor;
 	new_body->next = nullptr;
-
-	// find the current tail of the snake
 	SnakeBody* last_body = head_;
+    
 	while (last_body->next) {
 		last_body = last_body->next;
 	}
 
-	// The current position of the new tail is one unit in the opposite direction of the snakes current movement
 	switch (current_direction_) {
 		case UP:
 			new_body->position.set(last_body->position.x, last_body->position.y + body_size_.y);
@@ -330,11 +324,9 @@ void Snake::eatFood(ofColor newBodyColor) {
 			break;
 	}
 
-	// Attach a new tail to the snake
 	last_body->next = new_body;
 }
 
-// Resize the snake based on the ratio of old to new position
 void Snake::resize(int w, int h) {
 	int width = ofGetWindowWidth();
 	int height = ofGetWindowHeight();
@@ -344,6 +336,7 @@ void Snake::resize(int w, int h) {
 		float new_y = ((curr->position.y / screen_dims_.y) * h);
 		curr->position.set(new_x, new_y);
 	}
+    
 	screen_dims_.set(width, height);
 
 	float body_d = kbody_size_modifier_ * width;

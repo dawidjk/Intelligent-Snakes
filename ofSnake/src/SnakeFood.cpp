@@ -3,6 +3,8 @@
 using namespace snakelinkedlist;
 
 const float SnakeFood::kfood_modifier_ = 0.02;
+const int SnakeFood::kcolor_lower_ = 150;
+const int SnakeFood::kcolor_upper_ = 255;
 
 SnakeFood::SnakeFood() {
 	int window_width = ofGetWindowWidth();
@@ -14,7 +16,7 @@ SnakeFood::SnakeFood() {
 	generator_ = std::mt19937(rand());
 	dist_x_ = std::uniform_int_distribution<>(0, window_width - size_d);
 	dist_y_ = std::uniform_int_distribution<>(0, window_height - size_d);
-	dist_color_ = std::uniform_int_distribution<>(25, 125);
+	dist_color_ = std::uniform_int_distribution<>(kcolor_lower_, kcolor_upper_);
 	rebase();
 }
 

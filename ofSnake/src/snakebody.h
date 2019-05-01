@@ -4,8 +4,6 @@
 #include <vector>
 
 namespace snakelinkedlist {
-    
-    // Internal List Nodes
     class SnakeBodySegment {
         int data_;
     public:
@@ -16,4 +14,4 @@ namespace snakelinkedlist {
         friend bool operator!=(const SnakeBodySegment& lhs, const SnakeBodySegment& rhs);
     };
     
-} // namespace snakelinkedlist
+}

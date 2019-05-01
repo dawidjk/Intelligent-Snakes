@@ -6,22 +6,11 @@ using namespace snakelinkedlist;
 // Setup method
 void snakeGame::setup(){
 	ofSetWindowTitle("Intelligent Snake");
-    ofBackground(124,124,124);
 
 	srand(static_cast<unsigned>(time(0))); // Seed random with current time
     genetic_algorithm.setup();
 }
 
-/* 
-Update function called before every draw
-If the function should update when it is called it will:
-1. Check to see if the game is in progress, if it is paused or over it should not update.
-2. Check to see if the current head of the snake intersects the food pellet. If so:
-    * The snake should grow by length 1 in its current direction
-    * The food should be moved to a new random location
-3. Update the snake in the current direction it is moving
-4. Check to see if the snakes new position has resulted in its death and the end of the game
-*/
 void snakeGame::update() {
 	if (should_update_) {
 		if (current_state_ == IN_PROGRESS) {
@@ -39,7 +28,6 @@ void snakeGame::update() {
 			game_snake_.update();
 			
 			if (game_snake_.isDead()) {
-                std::cout << "DIED" << std::endl;
 				current_state_ = FINISHED;
                 genetic_algorithm.kill();
 			}
@@ -49,7 +37,6 @@ void snakeGame::update() {
     should_update_ = true;
     
     if (!genetic_algorithm.isBreeding() && current_state_ != PAUSED) {
-        std::cout << game_snake_.isStraightSafe() << game_snake_.isLeftSafe() << game_snake_.isRightSafe() << std::endl;
         char next_move = genetic_algorithm.getNextMove( game_snake_.isStraightSafe(), game_snake_.isLeftSafe(), game_snake_.isRightSafe(), game_snake_.isFoodStraight(game_food_.getFoodRect()), game_snake_.isFoodLeft(game_food_.getFoodRect()), game_snake_.isFoodRight(game_food_.getFoodRect()));
         
         if (next_move != game_snake_.getDirectionChar()) {
@@ -58,13 +45,8 @@ void snakeGame::update() {
     }
 }
 
-/*
-Draws the current state of the game with the following logic
-1. If the game is paused draw the pause screen
-2. If the game is finished draw the game over screen and final score
-3. Draw the current position of the food and of the snake
-*/
 void snakeGame::draw(){
+    ofBackgroundGradient(ofColor(60,60,60), ofColor(10,10,10));
 	if(current_state_ == PAUSED) {
 		drawGamePaused();
 	}
@@ -80,26 +62,13 @@ void snakeGame::draw(){
     drawAverageScore();
 }
 
-/* 
-Function that handles actions based on user key presses
-1. if key == F12, toggle fullscreen
-2. if key == p and game is not over, toggle pause
-3. if game is in progress handle WASD action
-4. if key == r and game is over reset it
-
-WASD logic:
-Let dir be the direction that corresponds to a key
-if current direction is not dir (Prevents key spamming to rapidly update the snake)
- and current_direction is not opposite of dir (Prevents the snake turning and eating itself)
- Update direction of snake and force a game update (see ofApp.h for why)
-*/
 void snakeGame::keyPressed(int key){
 	if (key == OF_KEY_F12) {
 		ofToggleFullscreen();
 		return;
 	}
     
-	int upper_key = toupper(key); // Standardize on upper case
+	int upper_key = toupper(key);
     
     if (key == '1') {
         genetic_algorithm.save();
@@ -120,30 +89,23 @@ void snakeGame::keyPressed(int key){
     }
     
 	if (upper_key == 'P' && current_state_ != FINISHED) {
-		// Pause or unpause
 		current_state_ = (current_state_ == IN_PROGRESS) ? PAUSED : IN_PROGRESS;
-	}
-	else if (current_state_ == IN_PROGRESS)
-	{
+	} else if (current_state_ == IN_PROGRESS) {
 		SnakeDirection current_direction = game_snake_.getDirection();
 
-		// If current direction has changed to a valid new one, force an immediate update and skip the next frame update
 		if (upper_key == 'W' && current_direction != DOWN && current_direction != UP) {
 			game_snake_.setDirection(UP);
 			update();
 			should_update_ = false;
-		}
-		else if (upper_key == 'A' && current_direction != RIGHT && current_direction != LEFT) {
+		} else if (upper_key == 'A' && current_direction != RIGHT && current_direction != LEFT) {
 			game_snake_.setDirection(LEFT);
 			update();
 			should_update_ = false;
-		}
-		else if ((upper_key == 'S') && current_direction != UP && current_direction != DOWN) {
+		} else if ((upper_key == 'S') && current_direction != UP && current_direction != DOWN) {
 			game_snake_.setDirection(DOWN);
 			update();
 			should_update_ = false;
-		}
-		else if (upper_key == 'D' && current_direction != LEFT && current_direction != RIGHT) {
+		} else if (upper_key == 'D' && current_direction != LEFT && current_direction != RIGHT) {
 			game_snake_.setDirection(RIGHT);
 			update();
 			should_update_ = false;
@@ -206,7 +168,7 @@ void snakeGame::drawGeneration() {
 void snakeGame::drawScore() {
     string score_message = "Score: " + std::to_string(game_snake_.getFoodEaten());
     
-    ofSetColor(0, 0, 0);
+    ofSetColor(255, 255, 255);
     ofTrueTypeFont font;
     ofRectangle text_rect = font.getStringBoundingBox(score_message,0,0);
 
@@ -216,7 +178,7 @@ void snakeGame::drawScore() {
 void snakeGame::drawHighScore() {
     string score_message = "High Score: " + std::to_string(longest_body_);
     
-    ofSetColor(0, 0, 0);
+    ofSetColor(255, 255, 255);
     ofTrueTypeFont font;
     ofRectangle text_rect = font.getStringBoundingBox(score_message,0,0);
     
@@ -226,7 +188,7 @@ void snakeGame::drawHighScore() {
 void snakeGame::drawCurrentSnake() {
     string current_snake = "Current Snake: " + std::to_string(genetic_algorithm.getCurrentSnake());
     
-    ofSetColor(0, 0, 0);
+    ofSetColor(255, 255, 255);
     ofTrueTypeFont font;
     ofRectangle text_rect = font.getStringBoundingBox(current_snake,0,0);
     
@@ -241,7 +203,7 @@ void snakeGame::drawAverageScore() {
     
     string average_score = "Average Generation Score: " + std::to_string(total_score / (genetic_algorithm.getCurrentSnake() + 1));
     
-    ofSetColor(0, 0, 0);
+    ofSetColor(255, 255, 255);
     ofTrueTypeFont font;
     ofRectangle text_rect = font.getStringBoundingBox(average_score,0,0);
     
