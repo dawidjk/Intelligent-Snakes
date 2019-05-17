@@ -24,3 +24,9 @@ The key feature to a genetic algorithm is breeding. We take the top 10% of the h
 ## Libraries
   - OpenFrameworks (http://openframeworks.cc)
   - tiny-dnn (https://github.com/tiny-dnn/tiny-dnn)
+
+## Generation 0
+![](gifs/baby-snake.gif)
+
+## Generation 910
+![](gifs/adult-snake.gif)
