@@ -1,4 +1,4 @@
-# ofIntelligentSnake
+# Intelligent Snakes
 ---
 ## History
 Snake is a game that has long been played by many, especially all of us old enough to remember what a flip phone is. Since the dawn of this era, Snake has been used as a pleasant way to perform the action of what some call "wasting time." What doesn't kill you makes you stronger, right? With ofIntelligentSnake, you no longer have to "waste time" by playing the game, you can simply watch the game play itself!
