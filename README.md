@@ -27,8 +27,12 @@ The key feature to a genetic algorithm is breeding. We take the top 10% of the h
 
 ## Generation 0
 This generation averages about 0.5 blocks eaten per snake... Very not impressive...
+
+
 ![](gifs/baby-snake.gif)
 
 ## Generation 910
 This generation averages about 60 blocks eaten per snake! That's what I call a drastic improvement! It's interesting to see that the snakes evolved to wiggle back and forth so that it looks like they are two blocks wide, but I guess that's survival of the fittest at work? I think it stems from an evolution where the snakes favored going diagonally whenever they could, but that's just a theory of mine.
+
+
 ![](gifs/adult-snake.gif)
