@@ -1,7 +1,7 @@
 # Intelligent Snakes
 ---
 ## History
-Snake is a game that has long been played by many, especially all of us old enough to remember what a flip phone is. Since the dawn of this era, Snake has been used as a pleasant way to perform the action of what some call "wasting time." What doesn't kill you makes you stronger, right? With ofIntelligentSnake, you no longer have to "waste time" by playing the game, you can simply watch the game play itself!
+Snake is a game that has long been played by many, especially all of us old enough to remember what a flip phone is. Since the dawn of this era, Snake has been used as a pleasant way to perform the action of what some call "wasting time." What doesn't kill you makes you stronger, right? With Intelligent-Snakes, you no longer have to "waste time" by playing the game, you can simply watch the game play itself!
 
 ## Background
 As a developer, I have always been intrigued by Machine Learning models and all that they can accomplish. As such, I found this CS 126 final project to be a fantastic way to self-learn some Machine Learning theory. My first step to becoming a snake charmer? Figure out where to start - what I want the structure to be like.
